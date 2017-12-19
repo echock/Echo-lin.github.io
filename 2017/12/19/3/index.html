@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：. 对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。">
+<meta name="description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP7.2版本指南（翻译版）">
 <meta property="og:url" content="http://yoursite.com/2017/12/19/3/index.html">
 <meta property="og:site_name" content="青石板上的月光照进这山城">
-<meta property="og:description" content="PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：. 对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。">
+<meta property="og:description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-12-19T07:17:05.563Z">
+<meta property="og:updated_time" content="2017-12-19T08:12:49.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP7.2版本指南（翻译版）">
-<meta name="twitter:description" content="PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：. 对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。">
+<meta name="twitter:description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
 
 
 
@@ -370,22 +370,46 @@
       
 
       
-        <h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><p>1.非兼容性改动<br>2.新特性<br>3.SAPI模块修改<br>4.弃用功能<br>5.修改的函数<br>6.新增的函数<br>7.新增的类和接口<br>8.弃用的扩展和SAPI<br>9.其他对扩展的修改<br>10.新增常量<br>11.INI配置文件修改<br>12.WINDOWS支持<br>13.其他修改</p>
-<h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><p><em>. 对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。
-</em>. 对于__PHP_Incomplete_Class<br>类对象，is_object()函数将返回true。<br><em>. 对Netware操作系统的支持已废弃；
-</em>. array转换成object((object)或者settype（）函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。<br><em>. object类型转换成array时（（array）或者settype（）函数），以及对象的属性映射到数组中时（get_object_vars()），会转换整数属性到数字键。这修复了之前的整数属性不可访问的问题。
-</em>. 对未定义常量的非限定性引用将导致一个waring级别的错误，代替了之前的notice，未来版本会是error级别的错误。<br><em>. 最低支持的Windows版本是Windows 7和Windows Server 2008 R2。
-</em>. 原生的trait属性值的兼容性检查将不再进行。<br>*. “object”将不能被用作类名。</p>
-<h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><p>和fmod（）函数一样，bcmod（）函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。举个例子，bcmod(‘4’,’3.5’)现在将返回0.5而不是1。</p>
-<h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p>hash_hmac(), hash_hmac_file(), hash_pbkdf2() 和hash_init()（用HASH_HMAC）这些函数将不再支持非加密的哈希函数。</p>
-<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>json_decode()函数的第二个参数assoc如果是null的话，options支持选项中的JSON_OBJECT_AS_ARRAY将被被派上用场，在之前的版本中这个参数是被我们一直忽略的。</p>
-<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p><em>. 移除了register_globals相关的代码，”!”可以被用在$_SESSION的键名中。
-</em>. session被用于正确管理会话状态,禁止无效操作，当你的代码有问题时将会触发该变化。如果你遇到了这个问题，这意味这你的代码有问题。<br><em>. sesseion_start(),session_status(),session_regenerate_id()函数被用于设置或者返回正确的会话状态。
-</em>. session_unset(), session_write_close()/session_commit(), session_abort()，session_reset()，这些函数返回从null中返回布尔值。这些函数允许可以有空的参数，并且会对这些空的检查进行检查。<br><em>. session_start(), session_set_cookie_params(), session_name(), session_module_name(),<br>session_set_save_handler(), session_regenerate_id(), session_cache_limiter(),session_cache_expire(), session_unset(), session_destroy(),<br>session_write_close()/session_commit(), session_reset()，这些函数禁止无效的会话状态和http头状态，返回正确的布尔值和数值。
-</em>.  session.name, session.save_path, session.cookie_lifetime, session.cookie_path,session.cookie_domain, session.cookie_httponly, session.cookie_secure,session.use_cookies, session.use_only_cookies, session.use_strict_mode,session.referer_check, session.cache_limiter, session.cache_expire,session.lazy_write, session.save_handler, session.serialize_handler,session.gc_probability, session.gc_divior, session.gc_maxlifetime,ini的值的设定需通过ini_set（）函数的成功操作，无效的ini修改操作将不会成功。<br><em>. session_start()，由于会话能够被正确管理，部分E_ERROR级别的错误信息将转化成E_WARNING级别。
-</em>. 会话将不再被无效的和无用的会话初始化<br>*. 当头部信息已经被发送，session_name(),session_module_name(), session_save_path(), session_cache_limiter()和<br>session_cache_expire()这些函数此时去设置新的ini值时将不再工作。老的php将接收新的值即使新的值并非是有效的。<br>现在这些正确的行为可能会影响到cli命令行模式下管理会话的甲苯。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。</p>
-<h4 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h4><p>在64位机器上，同一个种子的mt_rand（）函数和rand（）产生的随机数顺序可能会不一样，自7.1版本以来。</p>
-<hr>
+        <h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><ol>
+<li>非兼容性改动</li>
+<li>新特性</li>
+<li>SAPI模块修改</li>
+<li>弃用功能</li>
+<li>修改的函数</li>
+<li>新增的函数</li>
+<li>新增的类和接口</li>
+<li>弃用的扩展和SAPI</li>
+<li>其他对扩展的修改</li>
+<li>新增常量</li>
+<li>INI配置文件修改</li>
+<li>WINDOWS支持</li>
+<li>其他修改</li>
+</ol>
+<h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><ul>
+<li>对于封闭资源来说：<code>gettype()</code>函数返回<code>resource（closed)</code>,代替了之前的<code>unknown type</code>。</li>
+<li>对于<code>__PHP_Incomplete_Class</code>类对象，<code>is_object()</code>函数将返回true。</li>
+<li>对Netware操作系统的支持已废弃；</li>
+<li>array转换成object(<code>(object)</code>或者<code>settype()</code>函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。</li>
+<li>object类型转换成array时（<code>(array)</code>或者<code>settype()</code>函数），以及对象的属性映射到数组中时（<code>get_object_vars()</code>），会转换整数属性到数字键。这修复了之前的整数属性不可访问的问题。</li>
+<li>对未定义常量的非限定性引用将导致一个waring级别的错误，代替了之前的notice，未来版本会是error级别的错误。</li>
+<li>最低支持的Windows版本是Windows 7和Windows Server 2008 R2。</li>
+<li>原生的<code>trait</code>属性值的兼容性检查将不再进行。</li>
+<li><code>object</code>将不能被用作类名。</li>
+</ul>
+<h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><p>和<code>fmod()</code>函数一样，<code>bcmod()</code>函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。举个例子，<code>bcmod(&#39;4&#39;,&#39;3.5&#39;)</code>现在将返回0.5而不是1。</p>
+<h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p><code>hash_hmac()</code>, <code>hash_hmac_file()</code>, <code>hash_pbkdf2()</code>和<code>hash_init()</code>（用<code>HASH_HMAC</code>）这些函数将不再支持非加密的哈希函数。</p>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p><code>json_decode()</code>函数的第二个参数assoc如果是null的话，options支持选项中的<code>JSON_OBJECT_AS_ARRAY</code>将被使用，在之前的版本中这个参数是被我们一直忽略的。</p>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><ul>
+<li>移除了<code>register_globals</code>相关的代码，”!”可以被用在<code>$_SESSION</code>的键名中。</li>
+<li><code>session</code>被用于正确管理会话状态,禁止无效操作，当你的代码有问题时将会触发该变化。如果你遇到了这个问题，这意味这你的代码有问题。</li>
+<li><code>sesseion_start()</code>,<code>session_status()</code>,<code>session_regenerate_id()</code>函数被用于设置或者返回正确的会话状态。</li>
+<li><code>session_unset()</code>, <code>session_write_close()</code>/<code>session_commit()</code>, <code>session_abort()</code>，<code>session_reset()</code>，这些函数返回从null中返回布尔值。这些函数允许可以有空的参数，并且会对这些空的检查进行检查。</li>
+<li><code>session_start()</code>, <code>session_set_cookie_params()</code>, <code>session_name()</code>, <code>session_module_name()</code>,<br><code>session_set_save_handler()</code>, <code>session_regenerate_id()</code>, <code>session_cache_limiter()</code>,<code>session_cache_expire()</code>, <code>session_unset()</code>, <code>session_destroy()</code>,<br><code>session_write_close()/session_commit()</code>, <code>session_reset()</code>，这些函数禁止无效的会话状态和http头状态，返回正确的布尔值和数值。</li>
+<li><code>session.name</code>, <code>session.save_path</code>, <code>session.cookie_lifetime</code>, <code>session.cookie_path</code>,<code>session.cookie_domain</code>,<code>session.cookie_httponly</code>, <code>session.cookie_secure</code>,<code>session.use_cookies</code>, <code>session.use_only_cookies</code>, <code>session.use_strict_mode</code>,<code>session.referer_check</code>, <code>session.cache_limiter</code>, <code>session.cache_expire</code>,<code>session.lazy_write</code>, <code>session.save_handler</code>, <code>session.serialize_handler</code>,<code>session.gc_probability</code>, <code>session.gc_divior</code>, <code>session.gc_maxlifetime</code>,ini的值的设定需通过<code>ini_set()</code>函数的成功操作，无效的ini修改操作将不会成功。</li>
+<li><code>session_start()</code>，由于会话能够被正确管理，部分<code>E_ERROR</code>级别的错误信息将转化成<code>E_WARNING</code>级别。</li>
+<li>会话将不再被无效的和无用的会话初始化</li>
+<li>当头部信息已经被发送，<code>session_name()</code>,<code>session_module_name()</code>, <code>session_save_path()</code>, <code>session_cache_limiter()</code>和<br><code>session_cache_expire()</code>这些函数此时去设置新的ini值时将不再工作。老的php将接收新的值即使新的值并非是有效的。<br>现在这些正确的行为可能会影响到cli命令行模式下管理会话的甲苯。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。<h4 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h4>在64位机器上，同一个种子的<code>mt_rand()</code>和<code>rand()</code>产生的随机数顺序可能会不一样，自7.1版本以来。</li>
+</ul>
 <h3 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h3><h4 id="core"><a href="#core" class="headerlink" title="core"></a>core</h4><ol>
 <li>现在当重写一个继承的方法时，移除其参数类型的注释是可行的。这遵从了里氏平衡原则的参数类型的逆性。</li>
 <li>在子类中用一个抽象方法重写另一个抽象方法支持的。</li>
@@ -393,59 +417,123 @@
 <li>对象类型的注释是支持的。</li>
 </ol>
 <h4 id="DBA"><a href="#DBA" class="headerlink" title="DBA"></a>DBA</h4><p>实现了对LMDB后端的支持。</p>
-<h4 id="JSON-1"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</h4><p>在json_encode()和json_decode（）增加了JSON_INVALID_IGNORE和JSON_INVALTD_UTF8_SUBSTITUTE的支持，取代了之前的utf-8编码的无效类型。</p>
+<h4 id="JSON-1"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</h4><p>在<code>json_encode()</code>和<code>json_decode()</code>增加了<code>JSON_INVALID_IGNORE</code>和<code>JSON_INVALTD_UTF8_SUBSTITUTE</code>的支持，取代了之前的utf-8编码的无效类型。</p>
 <h4 id="OCI8"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</h4><p>增加了甲骨文数据库的透明应用故障切换(TAF)的支持。</p>
-<h4 id="PCRE"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</h4><p>增加了内部选项（j）修改本地的PCRE_DUPNAMES选项。</p>
+<h4 id="PCRE"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</h4><p>增加了内部选项（j）修改本地的<code>PCRE_DUPNAMES</code>选项。</p>
 <h4 id="Sodium"><a href="#Sodium" class="headerlink" title="Sodium"></a>Sodium</h4><p>新的加密扩展。</p>
 <h4 id="SQLite3"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</h4><p>写入BLOB。</p>
-<h4 id="Standard"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</h4><p><em>. 当使用libargon2来编译PHP时，简化的哈希密码的API已更新，用来支持Argon2i。
-</em>. windows平台支持proc_nice()函数。</p>
-<h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><p><em>. 读/写加密存档，依赖于libzip 1.2.0，<br>   新的方法：<br>       ZipArchive :: setEncryptionName（$ name，$ method [，$ password]）;<br>       ZipArchive :: setEncryptionIndex（$ index，$ method [，$ password]）;<br>   新的常量：<br>      ZipArchive:: EM_NONE<br>      ZipArchive:: EM_AES_128<br>      ZipArchive:: EM_AES_192<br>      ZipArchive:: EM_AES_256
-</em>. 从zip流上下文接受“密码”。<br>*. ZipArchive实现可计数，添加ZipArchive :: count（）方法。</p>
-<hr>
+<h4 id="Standard"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<li>当使用libargon2来编译PHP时，简化的哈希密码的API已更新，用来支持Argon2i。</li>
+<li>windows平台支持<code>proc_nice()</code>函数。</li>
+</ul>
+<h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><ul>
+<li><p>读/写加密存档，依赖于libzip 1.2.0，<br>新的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">       ZipArchive :: setEncryptionName（$ name，$ method [，$ password]）;</span><br><span class="line">       ZipArchive :: setEncryptionIndex（$ index，$ method [，$ password]）;</span><br></pre></td></tr></table></figure>
+<p>新的常量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      ZipArchive:: EM_NONE</span><br><span class="line">      ZipArchive:: EM_AES_128</span><br><span class="line">      ZipArchive:: EM_AES_192</span><br><span class="line">      ZipArchive:: EM_AES_256</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>从zip流上下文接受“密码”。</p>
+</li>
+<li>ZipArchive实现可计数，添加<code>ZipArchive::count()</code>方法。</li>
+</ul>
 <h3 id="SAPI模块修改"><a href="#SAPI模块修改" class="headerlink" title="SAPI模块修改"></a>SAPI模块修改</h3><h3 id="弃用功能"><a href="#弃用功能" class="headerlink" title="弃用功能"></a>弃用功能</h3><p>下面给出的是将要在php8.0版本中弃用的功能。</p>
-<h4 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h4><p>-. 配置文件的磁道错误指令将被废弃。<br>-. autoload()的原理被废弃，使用spl_autoload_register（）来替代。<br>-. (unset) 已被废弃，此项变化不会影响unset（$var）的语言结构。<br>-. create_function()函数被废弃，使用匿名函数来替代。<br>-. each()函数结构被废弃，使用foreach（）循环来替代。</p>
-<h4 id="Exif"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</h4><p>read_exif_data（）已被废弃，使用exif_read_data（）来替代。</p>
-<h4 id="GD"><a href="#GD" class="headerlink" title="GD"></a>GD</h4><p>png2wbmp（）和jpeg2wbmp（）被废弃。</p>
-<h4 id="GMP"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</h4><p>gmp_random（）被废弃，使用gmp_random_bits（）或者（）来替代。</p>
-<h4 id="Intl"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</h4><p>INTL_IDNA_VARIANT_2003被废弃，使用INTL_IDNA_VARIANT_UTS46来替代。</p>
-<h4 id="Mbstring"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</h4><p>mbstring.func_overload的配置文件指令被废弃。</p>
-<h4 id="Standard-1"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</h4><p>-. 不用参数来调用parse_str（）被废弃。<br>-. 用字符串参数来调用assert（）被废弃，使用常规表达式来替代。</p>
-<hr>
-<h3 id="修改的函数"><a href="#修改的函数" class="headerlink" title="修改的函数"></a>修改的函数</h3><h4 id="Standard-2"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</h4><p>-. 当设置为PASSWORD_ARGON2I时，password_hash（）可以生成Argon2i散列。<br>-. 当使用PASSWORD_ARGON2I时，下面这些选项可能默认被设置：“memory_cost”，“time_cost”。这些选项的默认值是“PASSWORD_ARGON2_DEFAULT_MEMORY_COST”。如果没有设置，则默认是“PASSWORD_ARGON2_DEFAULT_TIME_COST”和“PASSWORD_ARGON2_DEFAULT_THREADS“。<br>-. password_verify（）可以验证Argon2i散列。<br>-. password_get_info（）和password_needs_rehash（）可以接受Argon2i哈希值。<br>-. mail（)/mb_send_mail（）接受数组$ extra_header。数组参数是针对RFC 2822进行检查的。<br>数组格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$extra_headers = [</span><br><span class="line">    &apos;Header-Name&apos; =&gt; &apos;Header value&apos;,</span><br><span class="line">    &apos;Multiple&apos; =&gt; [&apos;One header&apos;, &apos;Another header&apos;],</span><br><span class="line">    &apos;Multiline&apos; = &quot;FirstLine\r\n SecondLine&quot;,</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure></p>
-<p>-. 当传递一个无效参数时，count()函数将抛出warning警告。<br>-. 大端和小端的字节序下，pack（）和unpack（）支持float和double类型。<br>-. number_format()函数将保证零值不包含负号。</p>
-<h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p>utf8_encode()和utf8_decode() 函数已被作为字符串移至标准扩展。</p>
-<hr>
-<h3 id="新增的函数"><a href="#新增的函数" class="headerlink" title="新增的函数"></a>新增的函数</h3><h4 id="core-1"><a href="#core-1" class="headerlink" title="core"></a>core</h4><p>-. 增加stream_istty()。<br>-. 增加sapi_windows_vt100_support()。</p>
-<h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><p>-. DomNodeList实现了countable，增加了DomNodeList::count()。<br>-. DOMNamedNodeMap实现了Countable，增加了DOMNamedNodeMap :: count（）。</p>
-<h4 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h4><p>增加了ftp_append（）。</p>
-<h4 id="GD-1"><a href="#GD-1" class="headerlink" title="GD"></a>GD</h4><p>-. 增加了imagesetclip（）和imagegetclip（）。<br>-. 增加了imageopenpolygon（）。<br>-. 增加了imageresolution（）。<br>-. 增加了imagecreatefrombmp（）和imagebmp（）。</p>
-<h4 id="Hash-1"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</h4><p>-. 增加了hash_hmac_algos（）。</p>
-<h4 id="Mbstring-1"><a href="#Mbstring-1" class="headerlink" title="Mbstring"></a>Mbstring</h4><p>-. 增加了mb_chr（）和mb_ord（）。<br>-. 增加了mb_scrub。</p>
-<h4 id="OCI8-1"><a href="#OCI8-1" class="headerlink" title="OCI8"></a>OCI8</h4><p>增加了oci_register_taf_callback（）和oci_unregister_taf_callback（）对甲骨文数据库的透明应用故障切换(TAF)的支持。</p>
-<h4 id="Sockets"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</h4><p>增加了socket_addrinfo_lookup（），socket_addrinfo_connect（），socket_addrinfo_bind（）和socket_addrinfo_explain（）。</p>
+<h4 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h4><ul>
+<li>配置文件的磁道错误指令将被废弃。</li>
+<li><code>autoload()</code>的原理被废弃，使用<code>spl_autoload_register()</code>来替代。</li>
+<li><code>(unset)</code>已被废弃，此项变化不会影响<code>unset($var)</code>的语言结构。</li>
+<li><code>create_function()</code>函数被废弃，使用匿名函数来替代。</li>
+<li><code>each()</code>函数结构被废弃，使用<code>foreach()</code>循环来替代。</li>
+</ul>
+<h4 id="Exif"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</h4><p><code>read_exif_data()</code>已被废弃，使用<code>exif_read_data()</code>来替代。</p>
+<h4 id="GD"><a href="#GD" class="headerlink" title="GD"></a>GD</h4><p><code>png2wbmp()</code>和<code>jpeg2wbmp()</code>被废弃。</p>
+<h4 id="GMP"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</h4><p><code>gmp_random()</code>被废弃，使用<code>gmp_random_bits()</code>或者（）来替代。</p>
+<h4 id="Intl"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</h4><p><code>INTL_IDNA_VARIANT_2003</code>被废弃，使用<code>INTL_IDNA_VARIANT_UTS46</code>来替代。</p>
+<h4 id="Mbstring"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</h4><p><code>mbstring.func_overload</code>的配置文件指令被废弃。</p>
+<h4 id="Standard-1"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<li>不用参数来调用<code>parse_str()</code>被废弃。</li>
+<li>用字符串参数来调用<code>assert()</code>被废弃，使用常规表达式来替代。</li>
+</ul>
+<h3 id="修改的函数"><a href="#修改的函数" class="headerlink" title="修改的函数"></a>修改的函数</h3><h4 id="Standard-2"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<li>当设置为<code>PASSWORD_ARGON2I</code>时，<code>password_hash()</code>可以生成Argon2i散列。</li>
+<li>当使用PASSWORD_ARGON2I时，下面这些选项可能默认被设置：<code>memory_cost</code>，<code>time_cost</code>。这些选项的默认值是<code>PASSWORD_ARGON2_DEFAULT_MEMORY_COST</code>。如果没有设置，则默认是<code>PASSWORD_ARGON2_DEFAULT_TIME_COST</code>和<code>PASSWORD_ARGON2_DEFAULT_THREADS</code>。</li>
+<li><code>password_verify()</code>可以验证Argon2i散列。</li>
+<li><code>password_get_info()</code>和<code>password_needs_rehash()</code>可以接受Argon2i哈希值。</li>
+<li><p><code>mail()/mb_send_mail()</code>接受数组<code>$extra_header</code>。数组参数是针对RFC 2822进行检查的。<br>数组格式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$extra_headers = [</span><br><span class="line">    <span class="string">'Header-Name'</span> =&gt; <span class="string">'Header value'</span>,</span><br><span class="line">    <span class="string">'Multiple'</span> =&gt; [<span class="string">'One header'</span>, <span class="string">'Another header'</span>],</span><br><span class="line">    <span class="string">'Multiline'</span> = <span class="string">"FirstLine\r\n SecondLine"</span>,</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当传递一个无效参数时，<code>count()</code>函数将抛出warning警告。</p>
+</li>
+<li>大端和小端的字节序下，<code>pack()</code>和<code>unpack()</code>支持float和double类型。</li>
+<li><code>number_format()</code>函数将保证零值不包含负号。</li>
+</ul>
+<h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p><code>utf8_encode()</code>和<code>utf8_decode()</code> 函数已被作为字符串移至标准扩展。</p>
+<h3 id="新增的函数"><a href="#新增的函数" class="headerlink" title="新增的函数"></a>新增的函数</h3><h4 id="core-1"><a href="#core-1" class="headerlink" title="core"></a>core</h4><ul>
+<li>增加<code>stream_istty()</code>。</li>
+<li>增加<code>sapi_windows_vt100_support()</code>。</li>
+</ul>
+<h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><ul>
+<li><code>DomNodeList</code>实现了Countable，增加了<code>DomNodeList::count()</code>。</li>
+<li><code>DOMNamedNodeMap</code>实现了Countable，增加了<code>DOMNamedNodeMap :: count()</code>。</li>
+</ul>
+<h4 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h4><p>增加了<code>ftp_append()</code>。</p>
+<h4 id="GD-1"><a href="#GD-1" class="headerlink" title="GD"></a>GD</h4><ul>
+<li>增加了<code>imagesetclip()</code>和<code>imagegetclip()</code>。</li>
+<li>增加了<code>imageopenpolygon()</code>。</li>
+<li>增加了<code>imageresolution()</code>。</li>
+<li>增加了<code>imagecreatefrombmp()</code>和<code>imagebmp()</code>。</li>
+</ul>
+<h4 id="Hash-1"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</h4><p>增加了<code>hash_hmac_algos()</code>。</p>
+<h4 id="Mbstring-1"><a href="#Mbstring-1" class="headerlink" title="Mbstring"></a>Mbstring</h4><ul>
+<li>增加了<code>mb_chr()</code>和<code>mb_ord()</code>。</li>
+<li>增加了<code>mb_scrub</code>。</li>
+</ul>
+<h4 id="OCI8-1"><a href="#OCI8-1" class="headerlink" title="OCI8"></a>OCI8</h4><p>增加了<code>oci_register_taf_callback()</code>和<code>oci_unregister_taf_callback()</code>对甲骨文数据库的透明应用故障切换(TAF)的支持。</p>
+<h4 id="Sockets"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</h4><p>增加了<code>socket_addrinfo_lookup()</code>，<code>socket_addrinfo_connect()</code>，<code>socket_addrinfo_bind()</code>和<code>socket_addrinfo_explain()</code>。</p>
 <h4 id="SPL"><a href="#SPL" class="headerlink" title="SPL"></a>SPL</h4><p>增加了spl_object_id。</p>
 <p>###新增的类和接口</p>
-<hr>
-<h3 id="弃用的扩展和SAPI"><a href="#弃用的扩展和SAPI" class="headerlink" title="弃用的扩展和SAPI"></a>弃用的扩展和SAPI</h3><h4 id="Mcypt"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</h4><p>-. 已废弃的mcrypt扩展已被移至PECL。<br>-. libmcrypt自2007年开始就没有维护，不推荐继续使用这个扩展。</p>
-<h3 id="其他对扩展的修改"><a href="#其他对扩展的修改" class="headerlink" title="其他对扩展的修改"></a>其他对扩展的修改</h3><h4 id="EXIF"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</h4><p>-. 增加了对如下格式的exif标签支持：Samsung, DJI, Panasonic, Sony, Pentax, Minolta, Sigma/Foveon, AGFA, Kyocera, Ricoh &amp; Epson。<br>-. exif_read_data（）和exif_t​​humbnail（）支持第一个参数是传递流。</p>
-<h4 id="GD-2"><a href="#GD-2" class="headerlink" title="GD"></a>GD</h4><p>-. 移除了–enable-gd-native-ttf配置选项。<br>-. imagegd（）将truecolor图像存储为真彩色图像,替代了之前的转换为调色板。<br>-. i在使用系统libgd编译时，mageantialias（）也支持。</p>
-<h4 id="Mbstring-2"><a href="#Mbstring-2" class="headerlink" title="Mbstring"></a>Mbstring</h4><p>-. mb_check_encoding（）接受数组参数，递归检查其键和值。<br>-. mb_convert_encoding（）接受数组参数，其值的编码可以递归地转换。</p>
-<h4 id="PDO-OCI"><a href="#PDO-OCI" class="headerlink" title="PDO_OCI"></a>PDO_OCI</h4><p>“–with-pdo-oci”的配置语法将不再Oracle客户端。</p>
-<h4 id="pdo-sqlite"><a href="#pdo-sqlite" class="headerlink" title="pdo_sqlite"></a>pdo_sqlite</h4><p>使用sqlite3_prepare_v2（）和sqlite3_close_v2（）来代替他们之前的函数。</p>
-<hr>
-<h3 id="新增常量"><a href="#新增常量" class="headerlink" title="新增常量"></a>新增常量</h3><h4 id="Core-1"><a href="#Core-1" class="headerlink" title="Core"></a>Core</h4><p>-. PHP_FLOAT_DIG<br>-. PHP_FLOAT_EPSILON<br>-. PHP_FLOAT_MIN<br>-. PHP_FLOAT_MAX<br>-. PHP_OS_FAMILY</p>
+<h3 id="弃用的扩展和SAPI"><a href="#弃用的扩展和SAPI" class="headerlink" title="弃用的扩展和SAPI"></a>弃用的扩展和SAPI</h3><h4 id="Mcypt"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</h4><ul>
+<li>已废弃的mcrypt扩展已被移至PECL。</li>
+<li>libmcrypt自2007年开始就没有维护，不推荐继续使用这个扩展。</li>
+</ul>
+<h3 id="其他对扩展的修改"><a href="#其他对扩展的修改" class="headerlink" title="其他对扩展的修改"></a>其他对扩展的修改</h3><h4 id="EXIF"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</h4><ul>
+<li>增加了对如下格式的exif标签支持：Samsung, DJI, Panasonic, Sony, Pentax, Minolta, Sigma/Foveon, AGFA, Kyocera, Ricoh &amp; Epson。</li>
+<li><code>exif_read_data()</code>和<code>exif_t​​humbnail()</code>支持第一个参数是传递流。</li>
+</ul>
+<h4 id="GD-2"><a href="#GD-2" class="headerlink" title="GD"></a>GD</h4><ul>
+<li>移除了<code>--enable-gd-native-ttf</code>配置选项。</li>
+<li><code>imagegd()</code>将truecolor图像存储为真彩色图像,替代了之前的转换为调色板。</li>
+<li>在使用系统libgd编译时，<code>mageantialias()</code>也支持。</li>
+</ul>
+<h4 id="Mbstring-2"><a href="#Mbstring-2" class="headerlink" title="Mbstring"></a>Mbstring</h4><ul>
+<li><code>mb_check_encoding()</code>接受数组参数，递归检查其键和值。</li>
+<li><code>mb_convert_encoding()</code>接受数组参数，其值的编码可以递归地转换。</li>
+</ul>
+<h4 id="PDO-OCI"><a href="#PDO-OCI" class="headerlink" title="PDO_OCI"></a>PDO_OCI</h4><p><code>--with-pdo-oci</code>的配置语法将不再Oracle客户端。</p>
+<h4 id="pdo-sqlite"><a href="#pdo-sqlite" class="headerlink" title="pdo_sqlite"></a>pdo_sqlite</h4><p>使用<code>sqlite3_prepare_v2()</code>和<code>sqlite3_close_v2()</code>来代替他们之前的函数。</p>
+<h3 id="新增常量"><a href="#新增常量" class="headerlink" title="新增常量"></a>新增常量</h3><h4 id="Core-1"><a href="#Core-1" class="headerlink" title="Core"></a>Core</h4><ul>
+<li>PHP_FLOAT_DIG</li>
+<li>PHP_FLOAT_EPSILON</li>
+<li>PHP_FLOAT_MIN</li>
+<li>PHP_FLOAT_MAX</li>
+<li>PHP_OS_FAMILY</li>
+</ul>
 <h4 id="Fileinfo"><a href="#Fileinfo" class="headerlink" title="Fileinfo"></a>Fileinfo</h4><p>FILEINFO_EXTENSION</p>
-<h4 id="GD-3"><a href="#GD-3" class="headerlink" title="GD"></a>GD</h4><p>-. IMG_EFFECT_MULTIPLY<br>-. IMG_BMP</p>
-<h4 id="PCRE-1"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</h4><p>-. PREG_UNMATCHED_AS_NULL</p>
-<h4 id="Standard-3"><a href="#Standard-3" class="headerlink" title="Standard:"></a>Standard:</h4><p>-. PASSWORD_ARGON2_DEFAULT_MEMORY_COST<br>-. PASSWORD_ARGON2_DEFAULT_TIME_COST<br>-. PASSWORD_ARGON2_DEFAULT_THREADS<br>-. PASSWORD_ARGON2I</p>
-<hr>
+<h4 id="GD-3"><a href="#GD-3" class="headerlink" title="GD"></a>GD</h4><ul>
+<li>IMG_EFFECT_MULTIPLY</li>
+<li>IMG_BMP</li>
+</ul>
+<h4 id="PCRE-1"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</h4><p>PREG_UNMATCHED_AS_NULL</p>
+<h4 id="Standard-3"><a href="#Standard-3" class="headerlink" title="Standard:"></a>Standard:</h4><ul>
+<li>PASSWORD_ARGON2_DEFAULT_MEMORY_COST</li>
+<li>PASSWORD_ARGON2_DEFAULT_TIME_COST</li>
+<li>PASSWORD_ARGON2_DEFAULT_THREADS</li>
+<li>PASSWORD_ARGON2I</li>
+</ul>
 <h3 id="INI配置文件修改"><a href="#INI配置文件修改" class="headerlink" title="INI配置文件修改"></a>INI配置文件修改</h3><h4 id="sql-safe-mode"><a href="#sql-safe-mode" class="headerlink" title="sql.safe_mode"></a>sql.safe_mode</h4><p>该选项已被移除</p>
 <h4 id="realpath-cache-size"><a href="#realpath-cache-size" class="headerlink" title="realpath_cache_size"></a>realpath_cache_size</h4><p>默认是4096k。</p>
-<hr>
 <h3 id="WINDOWS支持"><a href="#WINDOWS支持" class="headerlink" title="WINDOWS支持"></a>WINDOWS支持</h3><p>支持VT100控制台模式。</p>
-<hr>
 <h3 id="其他修改"><a href="#其他修改" class="headerlink" title="其他修改"></a>其他修改</h3><h4 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h4><p>autoconf最下支持版本是2.64.</p>
+<p>最后，附上原文地址：<br><a href="https://github.com/php/php-src/blob/PHP-7.2/UPGRADING" target="_blank" rel="noopener">https://github.com/php/php-src/blob/PHP-7.2/UPGRADING</a></p>
 
       
     </div>
