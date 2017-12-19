@@ -292,6 +292,143 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/19/3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张林林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青石板上的月光照进这山城">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/19/3/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-19T12:08:19+08:00">
+                2017-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/19/3/" class="leancloud_visitors" data-flag-title="">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h2 id="title-PHP7-2版本指南（翻译版）"><a href="#title-PHP7-2版本指南（翻译版）" class="headerlink" title="title:PHP7.2版本指南（翻译版）"></a>title:PHP7.2版本指南（翻译版）</h2><h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><p>1.非兼容性改动<br>2.新特性<br>3.SAPI模块修改<br>4.弃用功能<br>5.修改的函数<br>6.新增的函数<br>7.新增的类和接口<br>8.弃用的扩展和SAPI<br>9.其他对扩展的修改<br>10.新增常量<br>11.INI配置文件修改<br>12.WINDOWS支持<br>13.其他修改</p>
+<h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><p>1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。<br>2.对于__PHP_Incomplete_Class<br>类对象，is_object()函数将返回true。<br>3.对Netware操作系统的支持已废弃；<br>4.array转换成object((object)或者settype（）函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。<br>4.object类型转换成array时（（array）或者settype（）函数），以及对象的属性映射到数组中时（get_object_vars()），会转换整数属性到数字键。这修复了之前的整数属性不可访问的问题。<br>5.对未定义常量的非限定性引用将导致一个waring级别的错误，代替了之前的notice，未来版本会是error级别的错误。<br>6.最低支持的Windows版本是Windows 7和Windows Server 2008 R2。<br>7.原生的trait属性值的兼容性检查将不再进行。<br>8.”object”将不能被用作类名。</p>
+<h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><p>1.和fmod（）函数一样，bcmod（）函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。举个例子，bcmod(‘4’,’3.5’)现在将返回0.5而不是1。</p>
+<h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p>hash_hmac(), hash_hmac_file(), hash_pbkdf2() 和hash_init()（用HASH_HMAC）这些函数将不再支持非加密的哈希函数。</p>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>json_decode()函数的第二个参数assoc如果是null的话，options支持选项中的JSON_OBJECT_AS_ARRAY将被被派上用场，在之前的版本中这个参数是被我们一直忽略的。</p>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>1.移除了register_globals相关的代码，”!”可以被用在$_SESSION的键名中。<br>2.session被用于管理会话状态,禁止无效操作，当你的代码无效时将会触发该变化。如果你遇到了这个问题，那么这意味这你的代码有问题。<br>2.1sesseion_start(),session_status(),session_regenerate_id()函数被用于设置或者返回正确的会话状态。<br>2.2函数返回bool值从null。这些函数如果可以有空的参数，并且空的参数将被检查。 session_unset(), session_write_close()/session_commit(), session_abort()，session_reset()<br>2.3函数禁止无效的会话状态和http头状态。返回正确的布尔值和value值。<br>2.4ini的值的设定需通过ini_set（）函数的成功更新。无效的ini修改操作将不会成功。<br>2.5由于会话被正确的管理，部分E_ERROR级别的信息将转化成E_WARNING级别。<br>2.6会话将不再被无效的和无用的会话初始化<br>2.7当头部信息已经被发送，此时去设置新的ini值时将不再工作。老的php将接收新的值即使新的值并非是有效的。<br>现在这些正确的行为可能会影响到cli命令行模式下管理会话的甲苯。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。<br>-standard<br>在64位机器上，mt_rand（）函数和rand（）函数可能会不一样，自7.1版本以来。<br>2.新特性<br>-core<br>1.现在当重写一个继承的方法时，移除其参数类型是可行的。着<br>2在子类中用一个抽象方法重写另一个抽象方法是被允许的。<br>3.在一个组语言中使用逗号是允许的。<br>4对象类型的annotation是支持的。<br>-DBA<br>实现了对LMDB后端的支持。<br>-JSON<br>在json_encode()和json_decode（）增加了JSON_INVALID_IGNORE和JSON_INVALTD_UTF8_SUBSTITUTE的支持，用于n</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -462,7 +599,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

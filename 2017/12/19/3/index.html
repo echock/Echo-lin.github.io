@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="今天呢来进行内核知识的学习。主要学习环境方面的知识。 PHP代码的执行过程 PHP的构成PHP的源码目录：SAPI,main,Zend,ext SAPISAPI是php的宿主环境，也是整个PHP框架最外层的一部分，是进入php内部的入口。主要负责php框架最外层的一部分，经常用到的两个sapi是cli,fpm。 ZendVM该部分是php语言的核心实现，主要由两部分组成：编译器，执行器。其中编译器">
+<meta name="description" content="title:PHP7.2版本指南（翻译版）PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PHP学习笔记之一">
-<meta property="og:url" content="http://yoursite.com/2017/12/15/1/index.html">
+<meta property="og:title" content="青石板上的月光照进这山城">
+<meta property="og:url" content="http://yoursite.com/2017/12/19/3/index.html">
 <meta property="og:site_name" content="青石板上的月光照进这山城">
-<meta property="og:description" content="今天呢来进行内核知识的学习。主要学习环境方面的知识。 PHP代码的执行过程 PHP的构成PHP的源码目录：SAPI,main,Zend,ext SAPISAPI是php的宿主环境，也是整个PHP框架最外层的一部分，是进入php内部的入口。主要负责php框架最外层的一部分，经常用到的两个sapi是cli,fpm。 ZendVM该部分是php语言的核心实现，主要由两部分组成：编译器，执行器。其中编译器">
+<meta property="og:description" content="title:PHP7.2版本指南（翻译版）PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2017/12/15/1/~/Documents/compo.png">
-<meta property="og:updated_time" content="2017-12-18T10:19:02.184Z">
+<meta property="og:updated_time" content="2017-12-19T04:09:54.490Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP学习笔记之一">
-<meta name="twitter:description" content="今天呢来进行内核知识的学习。主要学习环境方面的知识。 PHP代码的执行过程 PHP的构成PHP的源码目录：SAPI,main,Zend,ext SAPISAPI是php的宿主环境，也是整个PHP框架最外层的一部分，是进入php内部的入口。主要负责php框架最外层的一部分，经常用到的两个sapi是cli,fpm。 ZendVM该部分是php语言的核心实现，主要由两部分组成：编译器，执行器。其中编译器">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/15/1/~/Documents/compo.png">
+<meta name="twitter:title" content="青石板上的月光照进这山城">
+<meta name="twitter:description" content="title:PHP7.2版本指南（翻译版）PHP7.2 版本指南1.非兼容性改动2.新特性3.SAPI模块修改4.弃用功能5.修改的函数6.新增的函数7.新增的类和接口8.弃用的扩展和SAPI9.其他对扩展的修改10.新增常量11.INI配置文件修改12.WINDOWS支持13.其他修改 非兼容性变化core：1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/15/1/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/19/3/"/>
 
 
 
 
 
-  <title>PHP学习笔记之一 | 青石板上的月光照进这山城</title>
+  <title> | 青石板上的月光照进这山城</title>
   
 
 
@@ -294,7 +292,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/19/3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张林林">
@@ -311,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">PHP学习笔记之一</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -323,8 +321,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-15T16:54:12+08:00">
-                2017-12-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-19T12:08:19+08:00">
+                2017-12-19
               </time>
             
 
@@ -341,7 +339,7 @@
 
           
           
-             <span id="/2017/12/15/1/" class="leancloud_visitors" data-flag-title="PHP学习笔记之一">
+             <span id="/2017/12/19/3/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -372,14 +370,14 @@
       
 
       
-        <p>今天呢来进行内核知识的学习。主要学习环境方面的知识。</p>
-<h2 id="PHP代码的执行过程"><a href="#PHP代码的执行过程" class="headerlink" title="PHP代码的执行过程"></a>PHP代码的执行过程</h2><p><img src="~/Documents/compo.png" alt="执行过程"></p>
-<h2 id="PHP的构成"><a href="#PHP的构成" class="headerlink" title="PHP的构成"></a>PHP的构成</h2><p>PHP的源码目录：SAPI,main,Zend,ext</p>
-<h3 id="SAPI"><a href="#SAPI" class="headerlink" title="SAPI"></a>SAPI</h3><p>SAPI是php的宿主环境，也是整个PHP框架最外层的一部分，是进入php内部的入口。主要负责php框架最外层的一部分，经常用到的两个sapi是cli,fpm。</p>
-<h3 id="ZendVM"><a href="#ZendVM" class="headerlink" title="ZendVM"></a>ZendVM</h3><p>该部分是php语言的核心实现，主要由两部分组成：编译器，执行器。其中编译器负责将php代码解释为执行器可识别的执行的指令，执行器负责执行编译器解释出指令，是抽象出来的虚拟计算机。</p>
-<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>模块初始化阶段<br>请求初始化阶段<br>执行脚本阶段<br>请求关闭阶段<br>模块关闭阶段</p>
-<h2 id="FPM"><a href="#FPM" class="headerlink" title="FPM"></a>FPM</h2><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h3><p>FPM是一种多进程模型，主进程负责管理子进程，基本的事件由子进程处理。masster进程启动时会创建一个socker，但不会接收、处理请求，而是由fork出的worker子进程完成请求的接收处理。master进程与worker进程不会直接进行通信，master通过共享内存获取worker进程的信息，master进程通过发送信号的方式杀掉worker进程。</p>
-<h3 id="php-fpm-conf配置详解"><a href="#php-fpm-conf配置详解" class="headerlink" title="php-fpm.conf配置详解"></a>php-fpm.conf配置详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line"></span><br><span class="line">pid = run/php-fpm.pid </span><br><span class="line">//pid设置，一定要开启。默认在var/run/php-fpm.pid</span><br><span class="line"></span><br><span class="line">error_log = log/php-fpm.log </span><br><span class="line">//错误日志。默认在var/log/php-fpm.lof</span><br><span class="line"></span><br><span class="line">emergency_restart_threshold = 20 </span><br><span class="line"></span><br><span class="line">emergency_restart_interval = 60s</span><br><span class="line">//表示在emergency_restart_interval所设值内出现SIGSEGV或者SIGBUS错误的php-cgi进程数如果超过 emergency_restart_threshold个，php-fpm就会优雅重启。这两个选项一般保持默认值。0 表示 &apos;关闭该功能&apos;. 默认值: 0 (关闭).</span><br><span class="line"></span><br><span class="line">process_control_timeout = 0</span><br><span class="line">//设置子进程接受主进程复用信号的超时时间. 可用单位: s(秒), m(分), h(小时), 或者 d(天) 默认单位: s(秒). 默认值: 0.</span><br><span class="line"></span><br><span class="line">process.max = 2048</span><br><span class="line"></span><br><span class="line">daemonize = yes</span><br><span class="line">//后台进程</span><br><span class="line"></span><br><span class="line">rlimit_files = 65535</span><br><span class="line">//设置文件打开描述符的rlimit限制. 默认值:系统定义值默认可打开句柄是1024，可使用 ulimit -n查看，ulimit -n 2048修改。</span><br><span class="line"></span><br><span class="line">rlimit_core = 67108864</span><br><span class="line">//设置核心rlimit最大限制值. 可用值: &apos;unlimited&apos; 、0或者正整数. 默认值: 系统定义值.</span><br><span class="line"></span><br><span class="line">events.mechanism = epoll</span><br><span class="line">//指定事件驱动模型，该配置指定master进程</span><br><span class="line"></span><br><span class="line">emergency_restart_threshold = 10</span><br><span class="line"></span><br><span class="line">emergency_restart_interval = 5</span><br><span class="line"></span><br><span class="line">user = www</span><br><span class="line"></span><br><span class="line">group = www</span><br><span class="line"></span><br><span class="line">//启动进程的用户和用户组</span><br><span class="line"></span><br><span class="line">listen = 127.0.0.1:9000</span><br><span class="line">//fpm监听端口，即nginx中php处理的地址，一般默认值即可。可用格式为: &apos;ip:port&apos;, &apos;port&apos;, &apos;/path/to/unix/socket&apos;. 每个进程池都需要设置。如果nginx和php在不同的机器上，分布式处理，就设置ip这里就可以了。</span><br><span class="line"></span><br><span class="line">listen.allowed_clients = 127.0.0.1</span><br><span class="line">//允许访问FastCGI进程的IP白名单，设置any为不限制IP，如果要设置其他主机的nginx也能访问这台FPM进程，listen处要设置成本地可被访问的IP。默认值是any。每个地址是用逗号分隔. 如果没有设置或者为空，则允许任何服务器请求连接。</span><br><span class="line"></span><br><span class="line">pm = dynamic</span><br><span class="line">//php-fpm进程启动模式，可选项有static，dynamic，ondemand。dynamic表明进程数是变化的。</span><br><span class="line"></span><br><span class="line">pm.max_children = 513 </span><br><span class="line">//子进程最大启动数</span><br><span class="line"></span><br><span class="line">pm.start_servers = 16 </span><br><span class="line">//启动时的进程数</span><br><span class="line"></span><br><span class="line">pm.min_spare_servers = 16</span><br><span class="line">//保证空闲进程最小值，如果空闲进程数小于此值，则创建新的子进程</span><br><span class="line"></span><br><span class="line">pm.max_spare_servers = 32</span><br><span class="line">//保证空闲进程数最大值，如果空闲进程数大于此值，则进行清理。</span><br><span class="line"></span><br><span class="line">pm.max_requests = 1500</span><br><span class="line">//设置每个子进程重生之前服务的请求数，如果设置为0则一直接收请求。</span><br><span class="line"></span><br><span class="line">pm.status_path = /h3_monitor</span><br><span class="line">//FPM状态页面的网址. 如果没有设置, 则无法访问状态页面. 默认值: none. munin监控会使用到</span><br><span class="line"></span><br><span class="line">slowlog = /data0/www/logs/$pool-slow_log</span><br><span class="line">//慢请求的记录日志,配合request_slowlog_timeout使用，默认关闭</span><br><span class="line"></span><br><span class="line">request_slowlog_timeout = 3</span><br><span class="line">//当一个请求该设置的超时时间后，就会将对应的PHP调用堆栈信息完整写入到慢日志中. 设置为 &apos;0&apos; 表示 &apos;Off&apos;</span><br><span class="line"></span><br><span class="line">request_terminate_timeout = 20</span><br><span class="line">//设置单个请求的超时中止时间. 该选项可能会对php.ini设置中的&apos;max_execution_time&apos;因为某些特殊原因没有中止运行的脚本有用. 设置为 &apos;0&apos; 表示 &apos;Off&apos;.当经常出现502错误时可以尝试更改此选项。</span><br><span class="line"></span><br><span class="line">catch_workers_output = no security.limit_extensions = &quot;&quot;</span><br><span class="line">//重定向运行过程中的stdout和stderr到主要的错误日志文件中. 如果没有设置, stdout 和 stderr 将会根据FastCGI的规则呗重定向到/dev/null,默认值：空.</span><br></pre></td></tr></table></figure>
+        <hr>
+<h2 id="title-PHP7-2版本指南（翻译版）"><a href="#title-PHP7-2版本指南（翻译版）" class="headerlink" title="title:PHP7.2版本指南（翻译版）"></a>title:PHP7.2版本指南（翻译版）</h2><h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><p>1.非兼容性改动<br>2.新特性<br>3.SAPI模块修改<br>4.弃用功能<br>5.修改的函数<br>6.新增的函数<br>7.新增的类和接口<br>8.弃用的扩展和SAPI<br>9.其他对扩展的修改<br>10.新增常量<br>11.INI配置文件修改<br>12.WINDOWS支持<br>13.其他修改</p>
+<h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><p>1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。<br>2.对于__PHP_Incomplete_Class<br>类对象，is_object()函数将返回true。<br>3.对Netware操作系统的支持已废弃；<br>4.array转换成object((object)或者settype（）函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。<br>4.object类型转换成array时（（array）或者settype（）函数），以及对象的属性映射到数组中时（get_object_vars()），会转换整数属性到数字键。这修复了之前的整数属性不可访问的问题。<br>5.对未定义常量的非限定性引用将导致一个waring级别的错误，代替了之前的notice，未来版本会是error级别的错误。<br>6.最低支持的Windows版本是Windows 7和Windows Server 2008 R2。<br>7.原生的trait属性值的兼容性检查将不再进行。<br>8.”object”将不能被用作类名。</p>
+<h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><p>1.和fmod（）函数一样，bcmod（）函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。举个例子，bcmod(‘4’,’3.5’)现在将返回0.5而不是1。</p>
+<h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p>hash_hmac(), hash_hmac_file(), hash_pbkdf2() 和hash_init()（用HASH_HMAC）这些函数将不再支持非加密的哈希函数。</p>
+<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><p>json_decode()函数的第二个参数assoc如果是null的话，options支持选项中的JSON_OBJECT_AS_ARRAY将被被派上用场，在之前的版本中这个参数是被我们一直忽略的。</p>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><p>1.移除了register_globals相关的代码，”!”可以被用在$_SESSION的键名中。<br>2.session被用于管理会话状态,禁止无效操作，当你的代码无效时将会触发该变化。如果你遇到了这个问题，那么这意味这你的代码有问题。<br>2.1sesseion_start(),session_status(),session_regenerate_id()函数被用于设置或者返回正确的会话状态。<br>2.2函数返回bool值从null。这些函数如果可以有空的参数，并且空的参数将被检查。 session_unset(), session_write_close()/session_commit(), session_abort()，session_reset()<br>2.3函数禁止无效的会话状态和http头状态。返回正确的布尔值和value值。<br>2.4ini的值的设定需通过ini_set（）函数的成功更新。无效的ini修改操作将不会成功。<br>2.5由于会话被正确的管理，部分E_ERROR级别的信息将转化成E_WARNING级别。<br>2.6会话将不再被无效的和无用的会话初始化<br>2.7当头部信息已经被发送，此时去设置新的ini值时将不再工作。老的php将接收新的值即使新的值并非是有效的。<br>现在这些正确的行为可能会影响到cli命令行模式下管理会话的甲苯。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。<br>-standard<br>在64位机器上，mt_rand（）函数和rand（）函数可能会不一样，自7.1版本以来。<br>2.新特性<br>-core<br>1.现在当重写一个继承的方法时，移除其参数类型是可行的。着<br>2在子类中用一个抽象方法重写另一个抽象方法是被允许的。<br>3.在一个组语言中使用逗号是允许的。<br>4对象类型的annotation是支持的。<br>-DBA<br>实现了对LMDB后端的支持。<br>-JSON<br>在json_encode()和json_decode（）增加了JSON_INVALID_IGNORE和JSON_INVALTD_UTF8_SUBSTITUTE的支持，用于n</p>
+
       
     </div>
     
@@ -403,15 +401,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/12/15/1/" rel="next" title="PHP学习笔记之一">
+                <i class="fa fa-chevron-left"></i> PHP学习笔记之一
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/19/3/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -527,7 +525,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP代码的执行过程"><span class="nav-number">1.</span> <span class="nav-text"><a href="#PHP&#x4EE3;&#x7801;&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;" class="headerlink" title="PHP&#x4EE3;&#x7801;&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;"></a>PHP&#x4EE3;&#x7801;&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP的构成"><span class="nav-number">2.</span> <span class="nav-text"><a href="#PHP&#x7684;&#x6784;&#x6210;" class="headerlink" title="PHP&#x7684;&#x6784;&#x6210;"></a>PHP&#x7684;&#x6784;&#x6210;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SAPI"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#SAPI" class="headerlink" title="SAPI"></a>SAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZendVM"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#ZendVM" class="headerlink" title="ZendVM"></a>ZendVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x751F;&#x547D;&#x5468;&#x671F;" class="headerlink" title="&#x751F;&#x547D;&#x5468;&#x671F;"></a>&#x751F;&#x547D;&#x5468;&#x671F;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPM"><span class="nav-number">3.</span> <span class="nav-text"><a href="#FPM" class="headerlink" title="FPM"></a>FPM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本实现"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x57FA;&#x672C;&#x5B9E;&#x73B0;" class="headerlink" title="&#x57FA;&#x672C;&#x5B9E;&#x73B0;"></a>&#x57FA;&#x672C;&#x5B9E;&#x73B0;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php-fpm-conf配置详解"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#php-fpm-conf&#x914D;&#x7F6E;&#x8BE6;&#x89E3;" class="headerlink" title="php-fpm.conf&#x914D;&#x7F6E;&#x8BE6;&#x89E3;"></a>php-fpm.conf&#x914D;&#x7F6E;&#x8BE6;&#x89E3;</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-PHP7-2版本指南（翻译版）"><span class="nav-number">1.</span> <span class="nav-text"><a href="#title-PHP7-2&#x7248;&#x672C;&#x6307;&#x5357;&#xFF08;&#x7FFB;&#x8BD1;&#x7248;&#xFF09;" class="headerlink" title="title:PHP7.2&#x7248;&#x672C;&#x6307;&#x5357;&#xFF08;&#x7FFB;&#x8BD1;&#x7248;&#xFF09;"></a>title:PHP7.2&#x7248;&#x672C;&#x6307;&#x5357;&#xFF08;&#x7FFB;&#x8BD1;&#x7248;&#xFF09;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP7-2-版本指南"><span class="nav-number">2.</span> <span class="nav-text"><a href="#PHP7-2-&#x7248;&#x672C;&#x6307;&#x5357;" class="headerlink" title="PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;"></a>PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非兼容性变化"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;" class="headerlink" title="&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;"></a>&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#core："><span class="nav-number">2.1.1.</span> <span class="nav-text"><a href="#core&#xFF1A;" class="headerlink" title="core&#xFF1A;"></a>core&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BcMath"><span class="nav-number">2.1.2.</span> <span class="nav-text"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash"><span class="nav-number">2.1.3.</span> <span class="nav-text"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">2.1.4.</span> <span class="nav-text"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">2.1.5.</span> <span class="nav-text"><a href="#Session" class="headerlink" title="Session"></a>Session</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
