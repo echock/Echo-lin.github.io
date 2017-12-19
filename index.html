@@ -311,7 +311,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/19/3/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2017/12/19/3/" itemprop="url">PHP7.2版本指南（翻译版）</a></h1>
         
 
         <div class="post-meta">
@@ -341,7 +341,7 @@
 
           
           
-             <span id="/2017/12/19/3/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2017/12/19/3/" class="leancloud_visitors" data-flag-title="PHP7.2版本指南（翻译版）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -374,8 +374,7 @@
       
         
           
-            <hr>
-<h2 id="title-PHP7-2版本指南（翻译版）"><a href="#title-PHP7-2版本指南（翻译版）" class="headerlink" title="title:PHP7.2版本指南（翻译版）"></a>title:PHP7.2版本指南（翻译版）</h2><h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><p>1.非兼容性改动<br>2.新特性<br>3.SAPI模块修改<br>4.弃用功能<br>5.修改的函数<br>6.新增的函数<br>7.新增的类和接口<br>8.弃用的扩展和SAPI<br>9.其他对扩展的修改<br>10.新增常量<br>11.INI配置文件修改<br>12.WINDOWS支持<br>13.其他修改</p>
+            <h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><p>1.非兼容性改动<br>2.新特性<br>3.SAPI模块修改<br>4.弃用功能<br>5.修改的函数<br>6.新增的函数<br>7.新增的类和接口<br>8.弃用的扩展和SAPI<br>9.其他对扩展的修改<br>10.新增常量<br>11.INI配置文件修改<br>12.WINDOWS支持<br>13.其他修改</p>
 <h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><p>1.对于封闭资源来说：gettype（）函数返回“resource（closed）”,代替了之前的“unknown type”。<br>2.对于__PHP_Incomplete_Class<br>类对象，is_object()函数将返回true。<br>3.对Netware操作系统的支持已废弃；<br>4.array转换成object((object)或者settype（）函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。<br>4.object类型转换成array时（（array）或者settype（）函数），以及对象的属性映射到数组中时（get_object_vars()），会转换整数属性到数字键。这修复了之前的整数属性不可访问的问题。<br>5.对未定义常量的非限定性引用将导致一个waring级别的错误，代替了之前的notice，未来版本会是error级别的错误。<br>6.最低支持的Windows版本是Windows 7和Windows Server 2008 R2。<br>7.原生的trait属性值的兼容性检查将不再进行。<br>8.”object”将不能被用作类名。</p>
 <h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><p>1.和fmod（）函数一样，bcmod（）函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。举个例子，bcmod(‘4’,’3.5’)现在将返回0.5而不是1。</p>
 <h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><p>hash_hmac(), hash_hmac_file(), hash_pbkdf2() 和hash_init()（用HASH_HMAC）这些函数将不再支持非加密的哈希函数。</p>
