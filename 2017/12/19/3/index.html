@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
+<meta name="description" content="PHP7.2 版本指南 不向后兼容的变更 新特性 SAPI模块变更 废弃的功能 变更的函数 新增的函数 新增的类和接口 移除的扩展和SAPI 其他对扩展的变更 新增全局常量 INI文件处理的变更 Windows支持 其他变更  不向后兼容的变更   Core： 对于封闭资源来说，gettype()函数将返回resource（closed)，取代之前的unknown type。 对于__PHP_In">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP7.2版本指南（翻译版）">
 <meta property="og:url" content="http://yoursite.com/2017/12/19/3/index.html">
 <meta property="og:site_name" content="青石板上的月光照进这山城">
-<meta property="og:description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
+<meta property="og:description" content="PHP7.2 版本指南 不向后兼容的变更 新特性 SAPI模块变更 废弃的功能 变更的函数 新增的函数 新增的类和接口 移除的扩展和SAPI 其他对扩展的变更 新增全局常量 INI文件处理的变更 Windows支持 其他变更  不向后兼容的变更   Core： 对于封闭资源来说，gettype()函数将返回resource（closed)，取代之前的unknown type。 对于__PHP_In">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-12-19T10:58:17.431Z">
+<meta property="og:updated_time" content="2017-12-20T13:16:35.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP7.2版本指南（翻译版）">
-<meta name="twitter:description" content="PHP7.2 版本指南 非兼容性改动 新特性 SAPI模块修改 弃用功能 修改的函数 新增的函数 新增的类和接口 弃用的扩展和SAPI 其他对扩展的修改 新增常量 INI配置文件修改 WINDOWS支持 其他修改  非兼容性变化core： 对于封闭资源来说：gettype()函数返回resource（closed),代替了之前的unknown type。 对于__PHP_Incomplete_Cl">
+<meta name="twitter:description" content="PHP7.2 版本指南 不向后兼容的变更 新特性 SAPI模块变更 废弃的功能 变更的函数 新增的函数 新增的类和接口 移除的扩展和SAPI 其他对扩展的变更 新增全局常量 INI文件处理的变更 Windows支持 其他变更  不向后兼容的变更   Core： 对于封闭资源来说，gettype()函数将返回resource（closed)，取代之前的unknown type。 对于__PHP_In">
 
 
 
@@ -332,28 +332,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -393,72 +371,90 @@
 
       
         <h2 id="PHP7-2-版本指南"><a href="#PHP7-2-版本指南" class="headerlink" title="PHP7.2 版本指南"></a>PHP7.2 版本指南</h2><ol>
-<li>非兼容性改动</li>
+<li>不向后兼容的变更</li>
 <li>新特性</li>
-<li>SAPI模块修改</li>
-<li>弃用功能</li>
-<li>修改的函数</li>
+<li>SAPI模块变更</li>
+<li>废弃的功能</li>
+<li>变更的函数</li>
 <li>新增的函数</li>
 <li>新增的类和接口</li>
-<li>弃用的扩展和SAPI</li>
-<li>其他对扩展的修改</li>
-<li>新增常量</li>
-<li>INI配置文件修改</li>
-<li>WINDOWS支持</li>
-<li>其他修改</li>
+<li>移除的扩展和SAPI</li>
+<li>其他对扩展的变更</li>
+<li>新增全局常量</li>
+<li>INI文件处理的变更</li>
+<li>Windows支持</li>
+<li><p>其他变更</p>
+</li>
+<li><p>不向后兼容的变更</p>
+</li>
 </ol>
-<h3 id="非兼容性变化"><a href="#非兼容性变化" class="headerlink" title="非兼容性变化"></a>非兼容性变化</h3><h4 id="core："><a href="#core：" class="headerlink" title="core："></a>core：</h4><ul>
-<li>对于封闭资源来说：<code>gettype()</code>函数返回<code>resource（closed)</code>,代替了之前的<code>unknown type</code>。</li>
-<li>对于<code>__PHP_Incomplete_Class</code>类对象，<code>is_object()</code>函数将返回true。</li>
-<li>对Netware操作系统的支持已废弃；</li>
-<li>array转换成object(<code>(object)</code>或者<code>settype()</code>函数)将把整型键转换成属性名。这修复了之前的的数字键不能成为属性名的问题。</li>
-<li>object类型转换成array时（<code>(array)</code>或者<code>settype()</code>函数，以及对象的属性映射到数组中时（<code>get_object_vars()</code>），会把整数属性转换成数字键，这修复了之前的整数属性不可访问的问题。</li>
-<li>对未定义常量的非限定性引用将导致一个waring级别的错误，而不是之前的notice，未来版本会是error级别的错误。</li>
-<li>最低支持的Windows版本是Windows 7和Windows Server 2008 R2。</li>
-<li>原生的<code>trait</code>属性值的兼容性检查将不再进行。</li>
+<h4 id="Core："><a href="#Core：" class="headerlink" title="Core："></a>Core：</h4><ul>
+<li>对于封闭资源来说，<code>gettype()</code>函数将返回<code>resource（closed)</code>，取代之前的<code>unknown type</code>。</li>
+<li>对于<code>__PHP_Incomplete_Class</code>类对象来说，<code>is_object()</code>函数将返回true。</li>
+<li>移除对Netware操作系统的支持。</li>
+<li>array类型转换成object类型(<code>(object)</code>或者<code>settype()</code>)时，将把整型键转换成属性名，这修复了之前版本的数字键不能作为属性名的问题。</li>
+<li>object类型转换成array类型（<code>(array)</code>或者<code>settype()</code>）时，以及对象的属性映射到数组中（<code>get_object_vars()</code>）时，会把整数属性转换成数字键，这修复了之前版本的整数属性不可访问的问题。</li>
+<li>对未定义常量的非限定性引用将导致一个waring级别的错误，取代之前的notice级别，之后的版本会是error级别的错误。</li>
+<li>支持的最低的Windows版本是Windows 7和Windows Server 2008 R2。</li>
+<li>取消了原生<code>trait</code>属性值的兼容性检查行为。</li>
 <li><code>object</code>将不能被用作类名。</li>
 </ul>
 <h4 id="BcMath"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</h4><ul>
-<li>和<code>fmod()</code>函数一样，<code>bcmod()</code>函数将不再把数值的小数部分截断变成整数，代替了之前的取模（%）操作。例如，<code>bcmod(&#39;4&#39;,&#39;3.5&#39;)</code>现在将返回0.5而不是1。</li>
+<li>和<code>fmod()</code>函数一样，<code>bcmod()</code>函数取消了取模操作（%），也就是数值的小数部分截断变成整数。例如：<code>bcmod(&#39;4&#39;，&#39;3.5&#39;)</code>将返回0.5而不是1。</li>
 </ul>
 <h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><ul>
-<li><code>hash_hmac()</code>, <code>hash_hmac_file()</code>, <code>hash_pbkdf2()</code>和<code>hash_init()</code>（用<code>HASH_HMAC</code>）这些函数将不再支持非加密的哈希函数。</li>
+<li><code>hash_hmac()</code>，<code>hash_hmac_file()</code>，<code>hash_pbkdf2()</code>以及<code>hash_init()</code>（options参数为<code>HASH_HMAC</code>时），这些函数将不再支持非加密的哈希函数。</li>
 </ul>
 <h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><ul>
-<li><code>json_decode()</code>函数的第二个参数assoc如果是null的话，options支持选项中的<code>JSON_OBJECT_AS_ARRAY</code>将被启用，在之前的版本中这个参数是被我们一直忽略的。</li>
+<li>当<code>json_decode()</code>函数的第二个参数assoc是null时，options支持选项中的<code>JSON_OBJECT_AS_ARRAY</code>将被启用，在之前的版本中这个参数是被我们一直忽略的。</li>
 </ul>
-<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><ul>
+<h4 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h4><ol>
 <li>移除了<code>register_globals</code>相关的代码，”!”可以被用在<code>$_SESSION</code>的键名中。</li>
-<li><code>session</code>被用于正确管理会话状态,禁止无效操作，当你的代码有问题时将会触发该变化。如果你遇到了这个问题，这意味这你的代码有问题。</li>
-<li><code>sesseion_start()</code>,<code>session_status()</code>,<code>session_regenerate_id()</code>函数被用于设置或者返回正确的会话状态。</li>
-<li><code>session_unset()</code>,<code>session_write_close()</code>/<code>session_commit()</code>,<code>session_abort()</code>,<code>session_reset()</code>,这些函数返回从null中返回布尔值。这些函数允许空的参数，并且会对这些空的检查进行检查。</li>
-<li><code>session_start()</code>,<code>session_set_cookie_params()</code>,<code>session_name()</code>,<code>session_module_name()</code>,<code>session_set_save_handler()</code>,<code>session_regenerate_id()</code>, <code>session_cache_limiter()</code>,<code>session_cache_expire()</code>,<code>session_unset()</code>,<code>session_destroy()</code>,<br><code>session_write_close()</code>/<code>session_commit()</code>,<code>session_reset()</code>，这些函数将禁止无效的会话状态和http头状态，返回正确的布尔值和数值。</li>
-<li><code>session.name</code>,<code>session.save_path</code>,<code>session.cookie_lifetime</code>,<code>session.cookie_path</code>,<code>session.cookie_domain</code>,<code>session.cookie_httponly</code>,<code>session.cookie_secure</code>,<code>session.use_cookies</code>,<code>session.use_only_cookies</code>,<code>session.use_strict_mode</code>,<code>session.referer_check</code>,<code>session.cache_limiter</code>, <code>session.cache_expire</code>,<code>session.lazy_write</code>,<code>session.save_handler</code>,<code>session.serialize_handler</code>,<code>session.gc_probability</code>,<code>session.gc_divior</code>,<code>session.gc_maxlifetime</code>,ini的值的设定需通过<code>ini_set()</code>函数的成功调用，无效的ini修改操作将不会成功。</li>
-<li><code>session_start()</code>，由于会话能够被正确管理，部分<code>E_ERROR</code>级别的错误信息将转化成<code>E_WARNING</code>级别。</li>
+<li><code>session</code>被用来正确的管理会话状态，禁止无效操作，当代码有问题时将会触发该变化。如果你不幸遇到了这个问题，这表明你的代码是存在问题的。<ul>
+<li><code>sesseion_start()</code>，<code>session_status()</code>，<code>session_regenerate_id()</code>，这些函数被用于设置或者返回正确的会话状态。</li>
+<li><code>session_unset()</code>，<code>session_write_close()</code>/<code>session_commit()</code>，<code>session_abort()</code>，<code>session_reset()</code>，这些函数返回从没有返回值变成返回布尔值。他们允许允许空的参数，并且会对这些空的检查进行检查。</li>
+<li><code>session_start()</code>，<code>session_set_cookie_params()</code>，<code>session_name()</code>，<code>session_module_name()</code>，<code>session_set_save_handler()</code>，<code>session_regenerate_id()</code>，<code>session_cache_limiter()</code>，<code>session_cache_expire()</code>，<code>session_unset()</code>，<code>session_destroy()</code>，<br><code>session_write_close()</code>/<code>session_commit()</code>，<code>session_reset()</code>，这些函数将禁止无效的会话状态和http头状态，返回正确的布尔值或者数值。</li>
+<li><code>session.name</code>，<code>session.save_path</code>，<code>session.cookie_lifetime</code>，<code>session.cookie_path</code>，<code>session.cookie_domain</code>，<code>session.cookie_httponly</code>，<code>session.cookie_secure</code>，<code>session.use_cookies</code>，<code>session.use_only_cookies</code>，<code>session.use_strict_mode</code>，<code>session.referer_check</code>，<code>session.cache_limiter</code>，<code>session.cache_expire</code>，<code>session.lazy_write</code>，<code>session.save_handler</code>，<code>session.serialize_handler</code>，<code>session.gc_probability</code>，<code>session.gc_divior</code>，<code>session.gc_maxlifetime</code>，这些ini的值的设定需通过<code>ini_set()</code>函数的成功调用，无效的ini修改操作将不会成功。</li>
+<li>由于会话能够被正确管理（<code>session_start()</code>），部分<code>E_ERROR</code>级别的错误信息将转化成<code>E_WARNING</code>级别。</li>
 <li>会话将不再被无效的和无用的会话初始化</li>
-<li>当头部信息已经被发送，<code>session_name()</code>,<code>session_module_name()</code>,<code>session_save_path()</code>,<code>session_cache_limiter()</code>和<br><code>session_cache_expire()</code>那么这些函数此时去设置新的ini值时将不再正常工作。<br>现在这些正确的行为会影响到cli命令行模式下管理会话的状态。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。</li>
+<li>当头部信息已经被发送，此时去设置新的ini值将无效（通过<code>session_name()</code>，<code>session_module_name()</code>，<code>session_save_path()</code>，<code>session_cache_limiter()</code>和<br><code>session_cache_expire()</code>这些函数）。</li>
 </ul>
-<h4 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h4><p>自7.1版本以来，在64位机器上，同一个种子的<code>mt_rand()</code>和<code>rand()</code>产生的随机数顺序可能会不一样，。</p>
-<h3 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h3><h4 id="core"><a href="#core" class="headerlink" title="core"></a>core</h4><ul>
-<li><p>现在当重写一个方法和接口时，其参数类型是可省略的的。这遵从了里氏平衡原则的参数类型的逆变。</p>
+</li>
+</ol>
+<p>现在这些正确的行为会影响到cli命令行模式下管理会话的状态。使用输出缓冲，就像是在网页应用那样将解决在cli脚本下的问题。</p>
+<h4 id="Standard"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</h4><p>自7.1版本以来，在64位机器上，同一个种子的<code>mt_rand()</code>和<code>rand()</code>产生的随机数顺序可能会不一样。</p>
+<h3 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h3><h4 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h4><ul>
+<li><p>当重写一个方法和接口时，其参数类型是可省略的。这遵从了里氏平衡原则的参数类型的逆变。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">interface I</span><br><span class="line">&#123;</span><br><span class="line">    public function functionI(array $ar);</span><br><span class="line">&#125;</span><br><span class="line">class II implements I</span><br><span class="line">&#123;</span><br><span class="line">    public function functionI($ar)</span><br><span class="line">    &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>允许继承后的抽象类来重写被继承的抽象类的抽象方法。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractA</span><br><span class="line">&#123;</span><br><span class="line">    abstract funcion example(int $i);</span><br><span class="line">&#125;</span><br><span class="line">abstract class ChildB extends AbstractA</span><br><span class="line">&#123;</span><br><span class="line">    abstract function example($i):string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>允许分组命名空间的尾部逗号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Secondhand\Link\&#123;</span><br><span class="line">    Mobile,</span><br><span class="line">    Salary,</span><br><span class="line">    Bank,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Secondhand\Link\&#123;</span><br><span class="line">    Mobile，</span><br><span class="line">    Salary，</span><br><span class="line">    Bank，</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>对象类型的注释是允许的。</p>
 </li>
 </ul>
-<h4 id="DBA"><a href="#DBA" class="headerlink" title="DBA"></a>DBA</h4><p>实现了对LMDB后端的支持。</p>
-<h4 id="JSON-1"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</h4><p>在<code>json_encode()</code>和<code>json_decode()</code>增加了<code>JSON_INVALID_IGNORE</code>和<code>JSON_INVALTD_UTF8_SUBSTITUTE</code>的支持，取代了之前的utf-8编码的无效类型。</p>
-<h4 id="OCI8"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</h4><p>增加了甲骨文数据库的透明应用故障切换(TAF)的支持。</p>
-<h4 id="PCRE"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</h4><p>增加了内部选项（j）修改本地的<code>PCRE_DUPNAMES</code>选项。</p>
-<h4 id="Sodium"><a href="#Sodium" class="headerlink" title="Sodium"></a>Sodium</h4><p>新的加密扩展。</p>
-<h4 id="SQLite3"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</h4><p>写入BLOB。</p>
-<h4 id="Standard"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<h4 id="DBA"><a href="#DBA" class="headerlink" title="DBA"></a>DBA</h4><ul>
+<li>实现了对LMDB后端的支持。</li>
+</ul>
+<h4 id="JSON-1"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</h4><ul>
+<li>在<code>json_encode()</code>和<code>json_decode()</code>增加了<code>JSON_INVALID_IGNORE</code>和<code>JSON_INVALTD_UTF8_SUBSTITUTE</code>的支持，取代了之前的utf-8编码的无效类型。</li>
+</ul>
+<h4 id="OCI8"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</h4><ul>
+<li>增加了甲骨文数据库的透明应用故障切换（TAF）的支持。</li>
+</ul>
+<h4 id="PCRE"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</h4><ul>
+<li>增加了内部选项（j）修改本地的<code>PCRE_DUPNAMES</code>选项。</li>
+</ul>
+<h4 id="Sodium"><a href="#Sodium" class="headerlink" title="Sodium"></a>Sodium</h4><ul>
+<li>新的加密扩展。</li>
+</ul>
+<h4 id="SQLite3"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</h4><ul>
+<li>写入BLOB。</li>
+</ul>
+<h4 id="Standard-1"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</h4><ul>
 <li>当使用libargon2来编译PHP时，简化的哈希密码的API已更新，用来支持Argon2。</li>
 <li>windows平台支持<code>proc_nice()</code>函数。</li>
 </ul>
@@ -470,40 +466,50 @@
 </li>
 <li><p>从zip流上下文接受“密码”。</p>
 </li>
-<li>ZipArchive实现可计数，添加<code>ZipArchive::count()</code>方法。</li>
+<li>ZipArchive实现可计数，增加<code>ZipArchive::count()</code>方法。</li>
 </ul>
-<h3 id="SAPI模块修改"><a href="#SAPI模块修改" class="headerlink" title="SAPI模块修改"></a>SAPI模块修改</h3><h3 id="弃用功能"><a href="#弃用功能" class="headerlink" title="弃用功能"></a>弃用功能</h3><p>下面给出的是将要在php8.0版本中弃用的功能。</p>
-<h4 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h4><ul>
+<h3 id="SAPI模块变更"><a href="#SAPI模块变更" class="headerlink" title="SAPI模块变更"></a>SAPI模块变更</h3><h3 id="废弃的功能"><a href="#废弃的功能" class="headerlink" title="废弃的功能"></a>废弃的功能</h3><p>下面是将要在php8.0版本中废弃的功能。</p>
+<h4 id="Core-1"><a href="#Core-1" class="headerlink" title="Core"></a>Core</h4><ul>
 <li>配置文件的磁道错误将被废弃。</li>
 <li><code>autoload()</code>将被废弃，使用<code>spl_autoload_register()</code>来替代。</li>
 <li><code>(unset)</code>将被废弃，此项变化不会影响<code>unset($var)</code>的语言结构。</li>
 <li><code>create_function()</code>函数将被废弃，使用匿名函数来替代。</li>
 <li><code>each()</code>函数结构将被废弃，使用<code>foreach()</code>循环来替代。</li>
 </ul>
-<h4 id="Exif"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</h4><p><code>read_exif_data()</code>将被废弃，使用<code>exif_read_data()</code>来替代。</p>
-<h4 id="GD"><a href="#GD" class="headerlink" title="GD"></a>GD</h4><p><code>png2wbmp()</code>和<code>jpeg2wbmp()</code>将被废弃。</p>
-<h4 id="GMP"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</h4><p><code>gmp_random()</code>将被废弃，使用<code>gmp_random_bits()</code>或者（）来替代。</p>
-<h4 id="Intl"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</h4><p><code>INTL_IDNA_VARIANT_2003</code>将被废弃，使用<code>INTL_IDNA_VARIANT_UTS46</code>来替代。</p>
-<h4 id="Mbstring"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</h4><p><code>mbstring.func_overload</code>的配置文件将被废弃。</p>
-<h4 id="Standard-1"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<h4 id="Exif"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</h4><ul>
+<li><code>read_exif_data()</code>将被废弃，使用<code>exif_read_data()</code>来替代。</li>
+</ul>
+<h4 id="GD"><a href="#GD" class="headerlink" title="GD"></a>GD</h4><ul>
+<li><code>png2wbmp()</code>和<code>jpeg2wbmp()</code>将被废弃。</li>
+</ul>
+<h4 id="GMP"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</h4><ul>
+<li><code>gmp_random()</code>将被废弃，使用<code>gmp_random_bits()</code>或者（）来替代。</li>
+</ul>
+<h4 id="Intl"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</h4><ul>
+<li><code>INTL_IDNA_VARIANT_2003</code>将被废弃，使用<code>INTL_IDNA_VARIANT_UTS46</code>来替代。</li>
+</ul>
+<h4 id="Mbstring"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</h4><ul>
+<li><code>mbstring.func_overload</code>的配置文件将被废弃。<h4 id="Standard-2"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</h4></li>
 <li>不用参数来调用<code>parse_str()</code>将被废弃。</li>
 <li>用字符串参数来调用<code>assert()</code>将被废弃，使用常规表达式来替代。</li>
 </ul>
-<h3 id="修改的函数"><a href="#修改的函数" class="headerlink" title="修改的函数"></a>修改的函数</h3><h4 id="Standard-2"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</h4><ul>
+<h3 id="变更的函数"><a href="#变更的函数" class="headerlink" title="变更的函数"></a>变更的函数</h3><h4 id="Standard-3"><a href="#Standard-3" class="headerlink" title="Standard"></a>Standard</h4><ul>
 <li>当设置为<code>PASSWORD_ARGON2I</code>时，<code>password_hash()</code>可以生成Argon2散列。</li>
 <li>当使用PASSWORD_ARGON2I时，下面这些选项可能默认被设置：<code>memory_cost</code>，<code>time_cost</code>。这些选项的默认值是<code>PASSWORD_ARGON2_DEFAULT_MEMORY_COST</code>。如果没有设置，则默认是<code>PASSWORD_ARGON2_DEFAULT_TIME_COST</code>和<code>PASSWORD_ARGON2_DEFAULT_THREADS</code>。</li>
 <li><code>password_verify()</code>可以验证Argon2散列。</li>
 <li><code>password_get_info()</code>和<code>password_needs_rehash()</code>可以接受Argon2哈希值。</li>
 <li><p><code>mail()/mb_send_mail()</code>接受数组<code>$extra_header</code>。数组参数是针对RFC 2822进行检查的。<br>数组格式：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$extra_headers = [</span><br><span class="line">    <span class="string">'Header-Name'</span> =&gt; <span class="string">'Header value'</span>,</span><br><span class="line">    <span class="string">'Multiple'</span> =&gt; [<span class="string">'One header'</span>, <span class="string">'Another header'</span>],</span><br><span class="line">    <span class="string">'Multiline'</span> = <span class="string">"FirstLine\r\n SecondLine"</span>,</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$extra_headers = [</span><br><span class="line">    <span class="string">'Header-Name'</span> =&gt; <span class="string">'Header value'</span>，</span><br><span class="line">    <span class="string">'Multiple'</span> =&gt; [<span class="string">'One header'</span>，<span class="string">'Another header'</span>]，</span><br><span class="line">    <span class="string">'Multiline'</span> = <span class="string">"FirstLine\r\n SecondLine"</span>，</span><br><span class="line">  ];</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>当传递一个无效参数时，<code>count()</code>函数将抛出warning警告。</p>
 </li>
 <li>大端和小端的字节序下，<code>pack()</code>和<code>unpack()</code>支持float和double类型。</li>
 <li><code>number_format()</code>函数将确保零值不包含负号。</li>
 </ul>
-<h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><p><code>utf8_encode()</code>和<code>utf8_decode()</code> 函数已被作为字符串移至标准扩展。</p>
-<h3 id="新增的函数"><a href="#新增的函数" class="headerlink" title="新增的函数"></a>新增的函数</h3><h4 id="core-1"><a href="#core-1" class="headerlink" title="core"></a>core</h4><ul>
+<h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><ul>
+<li><code>utf8_encode()</code>和<code>utf8_decode()</code> 函数已被作为字符串移至标准扩展。</li>
+</ul>
+<h3 id="新增的函数"><a href="#新增的函数" class="headerlink" title="新增的函数"></a>新增的函数</h3><h4 id="Core-2"><a href="#Core-2" class="headerlink" title="Core"></a>Core</h4><ul>
 <li>增加<code>stream_istty()</code>。</li>
 <li>增加<code>sapi_windows_vt100_support()</code>。</li>
 </ul>
@@ -511,14 +517,18 @@
 <li><code>DomNodeList</code>实现了Countable，增加了<code>DomNodeList::count()</code>。</li>
 <li><code>DOMNamedNodeMap</code>实现了Countable，增加了<code>DOMNamedNodeMap :: count()</code>。</li>
 </ul>
-<h4 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h4><p>增加了<code>ftp_append()</code>。</p>
+<h4 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h4><ul>
+<li>增加了<code>ftp_append()</code>。</li>
+</ul>
 <h4 id="GD-1"><a href="#GD-1" class="headerlink" title="GD"></a>GD</h4><ul>
 <li>增加了<code>imagesetclip()</code>和<code>imagegetclip()</code>。</li>
 <li>增加了<code>imageopenpolygon()</code>。</li>
 <li>增加了<code>imageresolution()</code>。</li>
 <li>增加了<code>imagecreatefrombmp()</code>和<code>imagebmp()</code>。</li>
 </ul>
-<h4 id="Hash-1"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</h4><p>增加了<code>hash_hmac_algos()</code>。</p>
+<h4 id="Hash-1"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</h4><ul>
+<li>增加了<code>hash_hmac_algos()</code>。</li>
+</ul>
 <h4 id="Mbstring-1"><a href="#Mbstring-1" class="headerlink" title="Mbstring"></a>Mbstring</h4><ul>
 <li>增加了<code>mb_chr()</code>和<code>mb_ord()</code>。</li>
 <li>增加了<code>mb_scrub</code>。</li>
@@ -533,17 +543,17 @@
 <li>增加了spl_object_id。</li>
 </ul>
 <p>###新增的类和接口</p>
-<h3 id="弃用的扩展和SAPI"><a href="#弃用的扩展和SAPI" class="headerlink" title="弃用的扩展和SAPI"></a>弃用的扩展和SAPI</h3><h4 id="Mcypt"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</h4><ul>
+<h3 id="移除的扩展和SAPI"><a href="#移除的扩展和SAPI" class="headerlink" title="移除的扩展和SAPI"></a>移除的扩展和SAPI</h3><h4 id="Mcypt"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</h4><ul>
 <li>已废弃的mcrypt扩展已被移至PECL。</li>
 <li>libmcrypt自2007年开始就没有维护，不推荐继续使用这个扩展。</li>
 </ul>
-<h3 id="其他对扩展的修改"><a href="#其他对扩展的修改" class="headerlink" title="其他对扩展的修改"></a>其他对扩展的修改</h3><h4 id="EXIF"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</h4><ul>
-<li>增加了对如下格式的exif标签支持：Samsung, DJI, Panasonic, Sony, Pentax, Minolta, Sigma/Foveon, AGFA, Kyocera, Ricoh &amp; Epson。</li>
+<h3 id="其他对扩展的变更"><a href="#其他对扩展的变更" class="headerlink" title="其他对扩展的变更"></a>其他对扩展的变更</h3><h4 id="EXIF"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</h4><ul>
+<li>增加了对如下格式的exif标签支持：Samsung，DJI，Panasonic，Sony，Pentax，Minolta，Sigma/Foveon，AGFA，Kyocera，Ricoh &amp; Epson。</li>
 <li><code>exif_read_data()</code>和<code>exif_t​​humbnail()</code>支持第一个参数是传递流。</li>
 </ul>
 <h4 id="GD-2"><a href="#GD-2" class="headerlink" title="GD"></a>GD</h4><ul>
 <li>移除了<code>--enable-gd-native-ttf</code>配置选项。</li>
-<li><code>imagegd()</code>将truecolor图像存储为真彩色图像,替代了之前的转换为调色板。</li>
+<li><code>imagegd()</code>将truecolor图像存储为真彩色图像，替代了之前的转换为调色板。</li>
 <li>在使用系统libgd编译时，<code>mageantialias()</code>也支持。</li>
 </ul>
 <h4 id="Mbstring-2"><a href="#Mbstring-2" class="headerlink" title="Mbstring"></a>Mbstring</h4><ul>
@@ -556,36 +566,40 @@
 <h4 id="pdo-sqlite"><a href="#pdo-sqlite" class="headerlink" title="pdo_sqlite"></a>pdo_sqlite</h4><ul>
 <li>使用<code>sqlite3_prepare_v2()</code>和<code>sqlite3_close_v2()</code>来代替他们之前的函数。</li>
 </ul>
-<h3 id="新增常量"><a href="#新增常量" class="headerlink" title="新增常量"></a>新增常量</h3><h4 id="Core-1"><a href="#Core-1" class="headerlink" title="Core"></a>Core</h4><ul>
+<h3 id="新增全局常量"><a href="#新增全局常量" class="headerlink" title="新增全局常量"></a>新增全局常量</h3><h4 id="Core-3"><a href="#Core-3" class="headerlink" title="Core"></a>Core</h4><ul>
 <li>PHP_FLOAT_DIG</li>
 <li>PHP_FLOAT_EPSILON</li>
 <li>PHP_FLOAT_MIN</li>
 <li>PHP_FLOAT_MAX</li>
 <li>PHP_OS_FAMILY</li>
 </ul>
-<h4 id="Fileinfo"><a href="#Fileinfo" class="headerlink" title="Fileinfo"></a>Fileinfo</h4><p>FILEINFO_EXTENSION</p>
+<h4 id="Fileinfo"><a href="#Fileinfo" class="headerlink" title="Fileinfo"></a>Fileinfo</h4><ul>
+<li>FILEINFO_EXTENSION</li>
+</ul>
 <h4 id="GD-3"><a href="#GD-3" class="headerlink" title="GD"></a>GD</h4><ul>
 <li>IMG_EFFECT_MULTIPLY</li>
 <li>IMG_BMP</li>
 </ul>
-<h4 id="PCRE-1"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</h4><p>PREG_UNMATCHED_AS_NULL</p>
-<h4 id="Standard-3"><a href="#Standard-3" class="headerlink" title="Standard:"></a>Standard:</h4><ul>
+<h4 id="PCRE-1"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</h4><ul>
+<li>PREG_UNMATCHED_AS_NULL</li>
+</ul>
+<h4 id="Standard-4"><a href="#Standard-4" class="headerlink" title="Standard:"></a>Standard:</h4><ul>
 <li>PASSWORD_ARGON2_DEFAULT_MEMORY_COST</li>
 <li>PASSWORD_ARGON2_DEFAULT_TIME_COST</li>
 <li>PASSWORD_ARGON2_DEFAULT_THREADS</li>
 <li>PASSWORD_ARGON2I</li>
 </ul>
-<h3 id="INI配置文件修改"><a href="#INI配置文件修改" class="headerlink" title="INI配置文件修改"></a>INI配置文件修改</h3><h4 id="sql-safe-mode"><a href="#sql-safe-mode" class="headerlink" title="sql.safe_mode"></a>sql.safe_mode</h4><ul>
-<li>该选项已被移除</li>
+<h3 id="INI文件处理的变更"><a href="#INI文件处理的变更" class="headerlink" title="INI文件处理的变更"></a>INI文件处理的变更</h3><h4 id="sql-safe-mode"><a href="#sql-safe-mode" class="headerlink" title="sql.safe_mode"></a>sql.safe_mode</h4><ul>
+<li>该选项已被移除。</li>
 </ul>
 <h4 id="realpath-cache-size"><a href="#realpath-cache-size" class="headerlink" title="realpath_cache_size"></a>realpath_cache_size</h4><ul>
 <li>默认是4096k。</li>
 </ul>
-<h3 id="WINDOWS支持"><a href="#WINDOWS支持" class="headerlink" title="WINDOWS支持"></a>WINDOWS支持</h3><ul>
+<h3 id="Windows支持"><a href="#Windows支持" class="headerlink" title="Windows支持"></a>Windows支持</h3><ul>
 <li>支持VT100控制台模式。</li>
 </ul>
-<h3 id="其他修改"><a href="#其他修改" class="headerlink" title="其他修改"></a>其他修改</h3><h4 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h4><ul>
-<li>autoconf最下支持版本是2.64.</li>
+<h3 id="其他变更"><a href="#其他变更" class="headerlink" title="其他变更"></a>其他变更</h3><h4 id="编译系统"><a href="#编译系统" class="headerlink" title="编译系统"></a>编译系统</h4><ul>
+<li>autoconf最低支持版本是2.64。</li>
 </ul>
 <p>最后，附上原文地址：<br><a href="https://github.com/php/php-src/blob/PHP-7.2/UPGRADING" target="_blank" rel="noopener">https://github.com/php/php-src/blob/PHP-7.2/UPGRADING</a></p>
 
@@ -749,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP7-2-版本指南"><span class="nav-number">1.</span> <span class="nav-text"><a href="#PHP7-2-&#x7248;&#x672C;&#x6307;&#x5357;" class="headerlink" title="PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;"></a>PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非兼容性变化"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;" class="headerlink" title="&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;"></a>&#x975E;&#x517C;&#x5BB9;&#x6027;&#x53D8;&#x5316;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#core："><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#core&#xFF1A;" class="headerlink" title="core&#xFF1A;"></a>core&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BcMath"><span class="nav-number">1.1.2.</span> <span class="nav-text"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash"><span class="nav-number">1.1.3.</span> <span class="nav-text"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">1.1.4.</span> <span class="nav-text"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">1.1.5.</span> <span class="nav-text"><a href="#Session" class="headerlink" title="Session"></a>Session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#standard"><span class="nav-number">1.1.6.</span> <span class="nav-text"><a href="#standard" class="headerlink" title="standard"></a>standard</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新特性"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x65B0;&#x7279;&#x6027;" class="headerlink" title="&#x65B0;&#x7279;&#x6027;"></a>&#x65B0;&#x7279;&#x6027;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#core"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#core" class="headerlink" title="core"></a>core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DBA"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#DBA" class="headerlink" title="DBA"></a>DBA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-1"><span class="nav-number">1.2.3.</span> <span class="nav-text"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OCI8"><span class="nav-number">1.2.4.</span> <span class="nav-text"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCRE"><span class="nav-number">1.2.5.</span> <span class="nav-text"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sodium"><span class="nav-number">1.2.6.</span> <span class="nav-text"><a href="#Sodium" class="headerlink" title="Sodium"></a>Sodium</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLite3"><span class="nav-number">1.2.7.</span> <span class="nav-text"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard"><span class="nav-number">1.2.8.</span> <span class="nav-text"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Zip"><span class="nav-number">1.2.9.</span> <span class="nav-text"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SAPI模块修改"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#SAPI&#x6A21;&#x5757;&#x4FEE;&#x6539;" class="headerlink" title="SAPI&#x6A21;&#x5757;&#x4FEE;&#x6539;"></a>SAPI&#x6A21;&#x5757;&#x4FEE;&#x6539;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弃用功能"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x5F03;&#x7528;&#x529F;&#x80FD;" class="headerlink" title="&#x5F03;&#x7528;&#x529F;&#x80FD;"></a>&#x5F03;&#x7528;&#x529F;&#x80FD;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core"><span class="nav-number">1.4.1.</span> <span class="nav-text"><a href="#Core" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Exif"><span class="nav-number">1.4.2.</span> <span class="nav-text"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD"><span class="nav-number">1.4.3.</span> <span class="nav-text"><a href="#GD" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GMP"><span class="nav-number">1.4.4.</span> <span class="nav-text"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Intl"><span class="nav-number">1.4.5.</span> <span class="nav-text"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring"><span class="nav-number">1.4.6.</span> <span class="nav-text"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-1"><span class="nav-number">1.4.7.</span> <span class="nav-text"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改的函数"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;&#x7684;&#x51FD;&#x6570;" class="headerlink" title="&#x4FEE;&#x6539;&#x7684;&#x51FD;&#x6570;"></a>&#x4FEE;&#x6539;&#x7684;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-2"><span class="nav-number">1.5.1.</span> <span class="nav-text"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML"><span class="nav-number">1.5.2.</span> <span class="nav-text"><a href="#XML" class="headerlink" title="XML"></a>XML</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增的函数"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;" class="headerlink" title="&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;"></a>&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#core-1"><span class="nav-number">1.6.1.</span> <span class="nav-text"><a href="#core-1" class="headerlink" title="core"></a>core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM"><span class="nav-number">1.6.2.</span> <span class="nav-text"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FTP"><span class="nav-number">1.6.3.</span> <span class="nav-text"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-1"><span class="nav-number">1.6.4.</span> <span class="nav-text"><a href="#GD-1" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash-1"><span class="nav-number">1.6.5.</span> <span class="nav-text"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring-1"><span class="nav-number">1.6.6.</span> <span class="nav-text"><a href="#Mbstring-1" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OCI8-1"><span class="nav-number">1.6.7.</span> <span class="nav-text"><a href="#OCI8-1" class="headerlink" title="OCI8"></a>OCI8</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sockets"><span class="nav-number">1.6.8.</span> <span class="nav-text"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPL"><span class="nav-number">1.6.9.</span> <span class="nav-text"><a href="#SPL" class="headerlink" title="SPL"></a>SPL</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弃用的扩展和SAPI"><span class="nav-number">1.7.</span> <span class="nav-text"><a href="#&#x5F03;&#x7528;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI" class="headerlink" title="&#x5F03;&#x7528;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI"></a>&#x5F03;&#x7528;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mcypt"><span class="nav-number">1.7.1.</span> <span class="nav-text"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他对扩展的修改"><span class="nav-number">1.8.</span> <span class="nav-text"><a href="#&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x4FEE;&#x6539;" class="headerlink" title="&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x4FEE;&#x6539;"></a>&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x4FEE;&#x6539;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EXIF"><span class="nav-number">1.8.1.</span> <span class="nav-text"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-2"><span class="nav-number">1.8.2.</span> <span class="nav-text"><a href="#GD-2" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring-2"><span class="nav-number">1.8.3.</span> <span class="nav-text"><a href="#Mbstring-2" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PDO-OCI"><span class="nav-number">1.8.4.</span> <span class="nav-text"><a href="#PDO-OCI" class="headerlink" title="PDO_OCI"></a>PDO_OCI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pdo-sqlite"><span class="nav-number">1.8.5.</span> <span class="nav-text"><a href="#pdo-sqlite" class="headerlink" title="pdo_sqlite"></a>pdo_sqlite</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增常量"><span class="nav-number">1.9.</span> <span class="nav-text"><a href="#&#x65B0;&#x589E;&#x5E38;&#x91CF;" class="headerlink" title="&#x65B0;&#x589E;&#x5E38;&#x91CF;"></a>&#x65B0;&#x589E;&#x5E38;&#x91CF;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-1"><span class="nav-number">1.9.1.</span> <span class="nav-text"><a href="#Core-1" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fileinfo"><span class="nav-number">1.9.2.</span> <span class="nav-text"><a href="#Fileinfo" class="headerlink" title="Fileinfo"></a>Fileinfo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-3"><span class="nav-number">1.9.3.</span> <span class="nav-text"><a href="#GD-3" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCRE-1"><span class="nav-number">1.9.4.</span> <span class="nav-text"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-3"><span class="nav-number">1.9.5.</span> <span class="nav-text"><a href="#Standard-3" class="headerlink" title="Standard:"></a>Standard:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INI配置文件修改"><span class="nav-number">1.10.</span> <span class="nav-text"><a href="#INI&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FEE;&#x6539;" class="headerlink" title="INI&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FEE;&#x6539;"></a>INI&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FEE;&#x6539;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-safe-mode"><span class="nav-number">1.10.1.</span> <span class="nav-text"><a href="#sql-safe-mode" class="headerlink" title="sql.safe_mode"></a>sql.safe_mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#realpath-cache-size"><span class="nav-number">1.10.2.</span> <span class="nav-text"><a href="#realpath-cache-size" class="headerlink" title="realpath_cache_size"></a>realpath_cache_size</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WINDOWS支持"><span class="nav-number">1.11.</span> <span class="nav-text"><a href="#WINDOWS&#x652F;&#x6301;" class="headerlink" title="WINDOWS&#x652F;&#x6301;"></a>WINDOWS&#x652F;&#x6301;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他修改"><span class="nav-number">1.12.</span> <span class="nav-text"><a href="#&#x5176;&#x4ED6;&#x4FEE;&#x6539;" class="headerlink" title="&#x5176;&#x4ED6;&#x4FEE;&#x6539;"></a>&#x5176;&#x4ED6;&#x4FEE;&#x6539;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译系统"><span class="nav-number">1.12.1.</span> <span class="nav-text"><a href="#&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;" class="headerlink" title="&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;"></a>&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP7-2-版本指南"><span class="nav-number">1.</span> <span class="nav-text"><a href="#PHP7-2-&#x7248;&#x672C;&#x6307;&#x5357;" class="headerlink" title="PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;"></a>PHP7.2 &#x7248;&#x672C;&#x6307;&#x5357;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core："><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#Core&#xFF1A;" class="headerlink" title="Core&#xFF1A;"></a>Core&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BcMath"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#BcMath" class="headerlink" title="BcMath"></a>BcMath</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash"><span class="nav-number">1.0.3.</span> <span class="nav-text"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON"><span class="nav-number">1.0.4.</span> <span class="nav-text"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session"><span class="nav-number">1.0.5.</span> <span class="nav-text"><a href="#Session" class="headerlink" title="Session"></a>Session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard"><span class="nav-number">1.0.6.</span> <span class="nav-text"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新特性"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x65B0;&#x7279;&#x6027;" class="headerlink" title="&#x65B0;&#x7279;&#x6027;"></a>&#x65B0;&#x7279;&#x6027;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#Core" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DBA"><span class="nav-number">1.1.2.</span> <span class="nav-text"><a href="#DBA" class="headerlink" title="DBA"></a>DBA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-1"><span class="nav-number">1.1.3.</span> <span class="nav-text"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OCI8"><span class="nav-number">1.1.4.</span> <span class="nav-text"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCRE"><span class="nav-number">1.1.5.</span> <span class="nav-text"><a href="#PCRE" class="headerlink" title="PCRE"></a>PCRE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sodium"><span class="nav-number">1.1.6.</span> <span class="nav-text"><a href="#Sodium" class="headerlink" title="Sodium"></a>Sodium</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLite3"><span class="nav-number">1.1.7.</span> <span class="nav-text"><a href="#SQLite3" class="headerlink" title="SQLite3"></a>SQLite3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-1"><span class="nav-number">1.1.8.</span> <span class="nav-text"><a href="#Standard-1" class="headerlink" title="Standard"></a>Standard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Zip"><span class="nav-number">1.1.9.</span> <span class="nav-text"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SAPI模块变更"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#SAPI&#x6A21;&#x5757;&#x53D8;&#x66F4;" class="headerlink" title="SAPI&#x6A21;&#x5757;&#x53D8;&#x66F4;"></a>SAPI&#x6A21;&#x5757;&#x53D8;&#x66F4;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#废弃的功能"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x5E9F;&#x5F03;&#x7684;&#x529F;&#x80FD;" class="headerlink" title="&#x5E9F;&#x5F03;&#x7684;&#x529F;&#x80FD;"></a>&#x5E9F;&#x5F03;&#x7684;&#x529F;&#x80FD;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-1"><span class="nav-number">1.3.1.</span> <span class="nav-text"><a href="#Core-1" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Exif"><span class="nav-number">1.3.2.</span> <span class="nav-text"><a href="#Exif" class="headerlink" title="Exif"></a>Exif</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD"><span class="nav-number">1.3.3.</span> <span class="nav-text"><a href="#GD" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GMP"><span class="nav-number">1.3.4.</span> <span class="nav-text"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Intl"><span class="nav-number">1.3.5.</span> <span class="nav-text"><a href="#Intl" class="headerlink" title="Intl"></a>Intl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring"><span class="nav-number">1.3.6.</span> <span class="nav-text"><a href="#Mbstring" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-2"><span class="nav-number">1.3.7.</span> <span class="nav-text"><a href="#Standard-2" class="headerlink" title="Standard"></a>Standard</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变更的函数"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x53D8;&#x66F4;&#x7684;&#x51FD;&#x6570;" class="headerlink" title="&#x53D8;&#x66F4;&#x7684;&#x51FD;&#x6570;"></a>&#x53D8;&#x66F4;&#x7684;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-3"><span class="nav-number">1.4.1.</span> <span class="nav-text"><a href="#Standard-3" class="headerlink" title="Standard"></a>Standard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XML"><span class="nav-number">1.4.2.</span> <span class="nav-text"><a href="#XML" class="headerlink" title="XML"></a>XML</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增的函数"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;" class="headerlink" title="&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;"></a>&#x65B0;&#x589E;&#x7684;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-2"><span class="nav-number">1.5.1.</span> <span class="nav-text"><a href="#Core-2" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM"><span class="nav-number">1.5.2.</span> <span class="nav-text"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FTP"><span class="nav-number">1.5.3.</span> <span class="nav-text"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-1"><span class="nav-number">1.5.4.</span> <span class="nav-text"><a href="#GD-1" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hash-1"><span class="nav-number">1.5.5.</span> <span class="nav-text"><a href="#Hash-1" class="headerlink" title="Hash"></a>Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring-1"><span class="nav-number">1.5.6.</span> <span class="nav-text"><a href="#Mbstring-1" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OCI8-1"><span class="nav-number">1.5.7.</span> <span class="nav-text"><a href="#OCI8-1" class="headerlink" title="OCI8"></a>OCI8</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sockets"><span class="nav-number">1.5.8.</span> <span class="nav-text"><a href="#Sockets" class="headerlink" title="Sockets"></a>Sockets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPL"><span class="nav-number">1.5.9.</span> <span class="nav-text"><a href="#SPL" class="headerlink" title="SPL"></a>SPL</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除的扩展和SAPI"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x79FB;&#x9664;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI" class="headerlink" title="&#x79FB;&#x9664;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI"></a>&#x79FB;&#x9664;&#x7684;&#x6269;&#x5C55;&#x548C;SAPI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mcypt"><span class="nav-number">1.6.1.</span> <span class="nav-text"><a href="#Mcypt" class="headerlink" title="Mcypt"></a>Mcypt</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他对扩展的变更"><span class="nav-number">1.7.</span> <span class="nav-text"><a href="#&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x53D8;&#x66F4;" class="headerlink" title="&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x53D8;&#x66F4;"></a>&#x5176;&#x4ED6;&#x5BF9;&#x6269;&#x5C55;&#x7684;&#x53D8;&#x66F4;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EXIF"><span class="nav-number">1.7.1.</span> <span class="nav-text"><a href="#EXIF" class="headerlink" title="EXIF"></a>EXIF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-2"><span class="nav-number">1.7.2.</span> <span class="nav-text"><a href="#GD-2" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mbstring-2"><span class="nav-number">1.7.3.</span> <span class="nav-text"><a href="#Mbstring-2" class="headerlink" title="Mbstring"></a>Mbstring</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PDO-OCI"><span class="nav-number">1.7.4.</span> <span class="nav-text"><a href="#PDO-OCI" class="headerlink" title="PDO_OCI"></a>PDO_OCI</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pdo-sqlite"><span class="nav-number">1.7.5.</span> <span class="nav-text"><a href="#pdo-sqlite" class="headerlink" title="pdo_sqlite"></a>pdo_sqlite</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增全局常量"><span class="nav-number">1.8.</span> <span class="nav-text"><a href="#&#x65B0;&#x589E;&#x5168;&#x5C40;&#x5E38;&#x91CF;" class="headerlink" title="&#x65B0;&#x589E;&#x5168;&#x5C40;&#x5E38;&#x91CF;"></a>&#x65B0;&#x589E;&#x5168;&#x5C40;&#x5E38;&#x91CF;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-3"><span class="nav-number">1.8.1.</span> <span class="nav-text"><a href="#Core-3" class="headerlink" title="Core"></a>Core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fileinfo"><span class="nav-number">1.8.2.</span> <span class="nav-text"><a href="#Fileinfo" class="headerlink" title="Fileinfo"></a>Fileinfo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GD-3"><span class="nav-number">1.8.3.</span> <span class="nav-text"><a href="#GD-3" class="headerlink" title="GD"></a>GD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PCRE-1"><span class="nav-number">1.8.4.</span> <span class="nav-text"><a href="#PCRE-1" class="headerlink" title="PCRE"></a>PCRE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Standard-4"><span class="nav-number">1.8.5.</span> <span class="nav-text"><a href="#Standard-4" class="headerlink" title="Standard:"></a>Standard:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INI文件处理的变更"><span class="nav-number">1.9.</span> <span class="nav-text"><a href="#INI&#x6587;&#x4EF6;&#x5904;&#x7406;&#x7684;&#x53D8;&#x66F4;" class="headerlink" title="INI&#x6587;&#x4EF6;&#x5904;&#x7406;&#x7684;&#x53D8;&#x66F4;"></a>INI&#x6587;&#x4EF6;&#x5904;&#x7406;&#x7684;&#x53D8;&#x66F4;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-safe-mode"><span class="nav-number">1.9.1.</span> <span class="nav-text"><a href="#sql-safe-mode" class="headerlink" title="sql.safe_mode"></a>sql.safe_mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#realpath-cache-size"><span class="nav-number">1.9.2.</span> <span class="nav-text"><a href="#realpath-cache-size" class="headerlink" title="realpath_cache_size"></a>realpath_cache_size</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows支持"><span class="nav-number">1.10.</span> <span class="nav-text"><a href="#Windows&#x652F;&#x6301;" class="headerlink" title="Windows&#x652F;&#x6301;"></a>Windows&#x652F;&#x6301;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他变更"><span class="nav-number">1.11.</span> <span class="nav-text"><a href="#&#x5176;&#x4ED6;&#x53D8;&#x66F4;" class="headerlink" title="&#x5176;&#x4ED6;&#x53D8;&#x66F4;"></a>&#x5176;&#x4ED6;&#x53D8;&#x66F4;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译系统"><span class="nav-number">1.11.1.</span> <span class="nav-text"><a href="#&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;" class="headerlink" title="&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;"></a>&#x7F16;&#x8BD1;&#x7CFB;&#x7EDF;</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
