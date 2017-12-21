@@ -571,8 +571,8 @@
 <li><code>session</code>被用来正确的管理会话状态，禁止无效操作，当代码有问题时将会触发该变化。如果你不幸遇到了这个问题，这表明你的代码是存在问题的。<ul>
 <li><code>sesseion_start()</code>，<code>session_status()</code>，<code>session_regenerate_id()</code>，这些函数被用于设置或者返回正确的会话状态。</li>
 <li><code>session_unset()</code>，<code>session_write_close()</code>/<code>session_commit()</code>，<code>session_abort()</code>，<code>session_reset()</code>，这些函数返回从没有返回值变成返回布尔值。他们允许允许空的参数，并且会对这些空的检查进行检查。</li>
-<li><code>session_start()</code>，<code>session_set_cookie_params()</code>，<code>session_name()</code>，<code>session_module_name()</code>，<code>session_set_save_handler()</code>，<code>session_regenerate_id()</code>，<code>session_cache_limiter()</code>，<code>session_cache_expire()</code>，<code>session_unset()</code>，<code>session_destroy()</code>，<br><code>session_write_close()</code>/<code>session_commit()</code>，<code>session_reset()</code>，这些函数将禁止无效的会话状态和http头状态，返回正确的布尔值或者数值。</li>
-<li><code>session.name</code>，<code>session.save_path</code>，<code>session.cookie_lifetime</code>，<code>session.cookie_path</code>，<code>session.cookie_domain</code>，<code>session.cookie_httponly</code>，<code>session.cookie_secure</code>，<code>session.use_cookies</code>，<code>session.use_only_cookies</code>，<code>session.use_strict_mode</code>，<code>session.referer_check</code>，<code>session.cache_limiter</code>，<code>session.cache_expire</code>，<code>session.lazy_write</code>，<code>session.save_handler</code>，<code>session.serialize_handler</code>，<code>session.gc_probability</code>，<code>session.gc_divior</code>，<code>session.gc_maxlifetime</code>，这些ini的值的设定需通过<code>ini_set()</code>函数的成功调用，无效的ini修改操作将不会成功。</li>
+<li><code>session_start()</code>，<code>session_set_cookie_params()</code>，<code>session_name()</code>，<br><code>session_module_name()</code>，<code>session_set_save_handler()</code>，<br><code>session_regenerate_id()</code>，<code>session_cache_limiter()</code>，<code>session_cache_expire()</code>，<code>session_unset()</code>，<br><code>session_destroy()</code>，<br><code>session_write_close()</code>/<code>session_commit()</code>，<code>session_reset()</code>，这些函数将禁止无效的会话状态和http头状态，返回正确的布尔值或者数值。</li>
+<li><code>session.name</code>，<code>session.save_path</code>，<code>session.cookie_lifetime</code>,<code>session.cookie_path</code>，<code>session.cookie_domain</code>，<code>session.cookie_httponly</code>，<code>session.cookie_secure</code>，<code>session.use_cookies</code>，<code>session.use_only_cookies</code>，<code>session.use_strict_mode</code>，<code>session.referer_check</code>，<code>session.cache_limiter</code>，<code>session.cache_expire</code>，<code>session.lazy_write</code>，<code>session.save_handler</code>，<code>session.serialize_handler</code>，<code>session.gc_probability</code>，<code>session.gc_divior</code>，<code>session.gc_maxlifetime</code>，这些ini的值的设定需通过<code>ini_set()</code>函数的成功调用，无效的ini修改操作将不会成功。</li>
 <li>由于会话能够被正确管理（<code>session_start()</code>），部分<code>E_ERROR</code>级别的错误信息将转化成<code>E_WARNING</code>级别。</li>
 <li>会话将不再被无效的和无用的会话初始化</li>
 <li>当头部信息已经被发送，此时去设置新的ini值将无效（通过<code>session_name()</code>，<code>session_module_name()</code>，<code>session_save_path()</code>，<code>session_cache_limiter()</code>和<br><code>session_cache_expire()</code>这些函数）。</li>
@@ -583,13 +583,10 @@
 <h4 id="Standard"><a href="#Standard" class="headerlink" title="Standard"></a>Standard</h4><p>自7.1版本以来，在64位机器上，同一个种子的<code>mt_rand()</code>和<code>rand()</code>产生的随机数顺序可能会不一样。</p>
 <h3 id="新特性"><a href="#新特性" class="headerlink" title="新特性"></a>新特性</h3><h4 id="Core"><a href="#Core" class="headerlink" title="Core"></a>Core</h4><ul>
 <li><p>当重写一个方法和接口时，其参数类型是可省略的。这遵从了里氏平衡原则的参数类型的逆变。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">interface I</span><br><span class="line">&#123;</span><br><span class="line">    public function functionI(array $ar);</span><br><span class="line">&#125;</span><br><span class="line">class II implements I</span><br><span class="line">&#123;</span><br><span class="line">    public function functionI($ar)</span><br><span class="line">    &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>允许继承后的抽象类来重写被继承的抽象类的抽象方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractA</span><br><span class="line">&#123;</span><br><span class="line">    abstract funcion example(int $i);</span><br><span class="line">&#125;</span><br><span class="line">abstract class ChildB extends AbstractA</span><br><span class="line">&#123;</span><br><span class="line">    abstract function example($i):string;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>允许分组命名空间的尾部逗号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">use Secondhand\Link\&#123;</span><br><span class="line">    Mobile，</span><br><span class="line">    Salary，</span><br><span class="line">    Bank，</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>对象类型的注释是允许的。</p>
 </li>
@@ -598,7 +595,7 @@
 <li>实现了对LMDB后端的支持。</li>
 </ul>
 <h4 id="JSON-1"><a href="#JSON-1" class="headerlink" title="JSON"></a>JSON</h4><ul>
-<li>在<code>json_encode()</code>和<code>json_decode()</code>增加了<code>JSON_INVALID_IGNORE</code>和<code>JSON_INVALTD_UTF8_SUBSTITUTE</code>的支持，取代了之前的utf-8编码的无效类型。</li>
+<li>在<code>json_encode()</code>和<code>json_decode()</code>增加了对<code>JSON_INVALID_IGNORE</code>和<code>JSON_INVALTD_UTF8_SUBSTITUTE</code>的支持，取代了之前的utf-8编码的无效类型。</li>
 </ul>
 <h4 id="OCI8"><a href="#OCI8" class="headerlink" title="OCI8"></a>OCI8</h4><ul>
 <li>增加了甲骨文数据库的透明应用故障切换（TAF）的支持。</li>
@@ -618,7 +615,7 @@
 </ul>
 <h4 id="Zip"><a href="#Zip" class="headerlink" title="Zip"></a>Zip</h4><ul>
 <li><p>读/写加密存档，依赖于libzip 1.2.0，<br>新的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">       ZipArchive :: setEncryptionName（$ name，$ method [，$ password]）;</span><br><span class="line">       ZipArchive :: setEncryptionIndex（$ index，$ method [，$ password]）;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">       ZipArchive:: setEncryptionName（$ name，$ method [，$ password]）;</span><br><span class="line">       ZipArchive:: setEncryptionIndex（$ index，$ method [，$ password]）;</span><br></pre></td></tr></table></figure>
 <p>新的常量：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      ZipArchive:: EM_NONE</span><br><span class="line">      ZipArchive:: EM_AES_128</span><br><span class="line">      ZipArchive:: EM_AES_192</span><br><span class="line">      ZipArchive:: EM_AES_256</span><br></pre></td></tr></table></figure>
 </li>
