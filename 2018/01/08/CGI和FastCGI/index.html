@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="title：CGI和FastCGICGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin">
+<meta name="description" content="CGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="青石板上的月光照进这山城">
+<meta property="og:title" content="CGI和FastCGI">
 <meta property="og:url" content="http://yoursite.com/2018/01/08/CGI和FastCGI/index.html">
 <meta property="og:site_name" content="青石板上的月光照进这山城">
-<meta property="og:description" content="title：CGI和FastCGICGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin">
+<meta property="og:description" content="CGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-01-08T09:42:11.524Z">
+<meta property="og:updated_time" content="2018-01-08T10:13:11.446Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="青石板上的月光照进这山城">
-<meta name="twitter:description" content="title：CGI和FastCGICGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin">
+<meta name="twitter:title" content="CGI和FastCGI">
+<meta name="twitter:description" content="CGI简介全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。 CGI的运行原理 客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。 服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title> | 青石板上的月光照进这山城</title>
+  <title>CGI和FastCGI | 青石板上的月光照进这山城</title>
   
 
 
@@ -309,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">CGI和FastCGI</h1>
         
 
         <div class="post-meta">
@@ -339,7 +339,7 @@
 
           
           
-             <span id="/2018/01/08/CGI和FastCGI/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/01/08/CGI和FastCGI/" class="leancloud_visitors" data-flag-title="CGI和FastCGI">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -370,8 +370,7 @@
       
 
       
-        <hr>
-<h2 id="title：CGI和FastCGI"><a href="#title：CGI和FastCGI" class="headerlink" title="title：CGI和FastCGI"></a>title：CGI和FastCGI</h2><h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。</p>
+        <h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。</p>
 <h2 id="CGI的运行原理"><a href="#CGI的运行原理" class="headerlink" title="CGI的运行原理"></a>CGI的运行原理</h2><ol>
 <li>客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。</li>
 <li>服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的 CGI 程序，并启动此应用程序进行处理，处理结果通过标准输出 stdout 返回给 HTTP Daemon 子进程。</li>
@@ -653,7 +652,7 @@ return res;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title：CGI和FastCGI"><span class="nav-number">1.</span> <span class="nav-text"><a href="#title&#xFF1A;CGI&#x548C;FastCGI" class="headerlink" title="title&#xFF1A;CGI&#x548C;FastCGI"></a>title&#xFF1A;CGI&#x548C;FastCGI</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CGI简介"><span class="nav-number"></span> <span class="nav-text"><a href="#CGI&#x7B80;&#x4ECB;" class="headerlink" title="CGI&#x7B80;&#x4ECB;"></a>CGI&#x7B80;&#x4ECB;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CGI的运行原理"><span class="nav-number">1.</span> <span class="nav-text"><a href="#CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;" class="headerlink" title="CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;"></a>CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text"><a href="#" class="headerlink" title="}"></a>}</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FastCGI-简介"><span class="nav-number"></span> <span class="nav-text"><a href="#FastCGI-&#x7B80;&#x4ECB;" class="headerlink" title="FastCGI &#x7B80;&#x4ECB;"></a>FastCGI &#x7B80;&#x4ECB;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作流程"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;" class="headerlink" title="&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;"></a>&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6BD4;&#x8F83;" class="headerlink" title="&#x6BD4;&#x8F83;"></a>&#x6BD4;&#x8F83;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CGI简介"><span class="nav-number">1.</span> <span class="nav-text"><a href="#CGI&#x7B80;&#x4ECB;" class="headerlink" title="CGI&#x7B80;&#x4ECB;"></a>CGI&#x7B80;&#x4ECB;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CGI的运行原理"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;" class="headerlink" title="CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;"></a>CGI&#x7684;&#x8FD0;&#x884C;&#x539F;&#x7406;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#" class="headerlink" title="}"></a>}</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FastCGI-简介"><span class="nav-number">2.</span> <span class="nav-text"><a href="#FastCGI-&#x7B80;&#x4ECB;" class="headerlink" title="FastCGI &#x7B80;&#x4ECB;"></a>FastCGI &#x7B80;&#x4ECB;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作流程"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;" class="headerlink" title="&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;"></a>&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x6BD4;&#x8F83;" class="headerlink" title="&#x6BD4;&#x8F83;"></a>&#x6BD4;&#x8F83;</span></a></li></ol></li></ol></div>
             
 
           </div>

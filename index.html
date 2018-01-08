@@ -311,7 +311,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/08/CGI和FastCGI/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2018/01/08/CGI和FastCGI/" itemprop="url">CGI和FastCGI</a></h1>
         
 
         <div class="post-meta">
@@ -341,7 +341,7 @@
 
           
           
-             <span id="/2018/01/08/CGI和FastCGI/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/01/08/CGI和FastCGI/" class="leancloud_visitors" data-flag-title="CGI和FastCGI">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -374,8 +374,7 @@
       
         
           
-            <hr>
-<h2 id="title：CGI和FastCGI"><a href="#title：CGI和FastCGI" class="headerlink" title="title：CGI和FastCGI"></a>title：CGI和FastCGI</h2><h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。</p>
+            <h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。</p>
 <h2 id="CGI的运行原理"><a href="#CGI的运行原理" class="headerlink" title="CGI的运行原理"></a>CGI的运行原理</h2><ol>
 <li>客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。</li>
 <li>服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的 CGI 程序，并启动此应用程序进行处理，处理结果通过标准输出 stdout 返回给 HTTP Daemon 子进程。</li>
