@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="一个程序员的一生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="在学习过CGI和FPM之后，我们这节来学习Nginx与Fpm的工作机制。 联系CGI是Web服务器与后台语言交互的协议，该协议的缺点是每处理一个请求都需要fork一个全新的进程，十分低效。FastCGI是更快的CGI，其特点是允许在一个进程内处理多个请求，而不是一个请求处理完毕就直接结束进程。FPM是FastCGI的实现，是一个PHP进程管理器，包含master进程和worker进程两种进程：ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx和FPM">
+<meta property="og:url" content="http://yoursite.com/2018/04/02/FastCGI和FPM/index.html">
 <meta property="og:site_name" content="青石板上的月光照进这山城">
-<meta property="og:description" content="一个程序员的一生">
+<meta property="og:description" content="在学习过CGI和FPM之后，我们这节来学习Nginx与Fpm的工作机制。 联系CGI是Web服务器与后台语言交互的协议，该协议的缺点是每处理一个请求都需要fork一个全新的进程，十分低效。FastCGI是更快的CGI，其特点是允许在一个进程内处理多个请求，而不是一个请求处理完毕就直接结束进程。FPM是FastCGI的实现，是一个PHP进程管理器，包含master进程和worker进程两种进程：ma">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-12-19T10:55:22.384Z">
+<meta property="og:updated_time" content="2018-04-02T08:21:15.824Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="一个程序员的一生">
+<meta name="twitter:title" content="Nginx和FPM">
+<meta name="twitter:description" content="在学习过CGI和FPM之后，我们这节来学习Nginx与Fpm的工作机制。 联系CGI是Web服务器与后台语言交互的协议，该协议的缺点是每处理一个请求都需要fork一个全新的进程，十分低效。FastCGI是更快的CGI，其特点是允许在一个进程内处理多个请求，而不是一个请求处理完毕就直接结束进程。FPM是FastCGI的实现，是一个PHP进程管理器，包含master进程和worker进程两种进程：ma">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/02/FastCGI和FPM/"/>
 
 
 
 
 
-  <title>categories | 青石板上的月光照进这山城</title>
+  <title>Nginx和FPM | 青石板上的月光照进这山城</title>
   
 
 
@@ -280,33 +280,159 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/02/FastCGI和FPM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张林林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青石板上的月光照进这山城">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">Nginx和FPM</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T12:04:12+08:00">
+                2018-04-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/02/FastCGI和FPM/" class="leancloud_visitors" data-flag-title="Nginx和FPM">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>在学习过CGI和FPM之后，我们这节来学习Nginx与Fpm的工作机制。</p>
+<h2 id="联系"><a href="#联系" class="headerlink" title="联系"></a>联系</h2><p>CGI是Web服务器与后台语言交互的协议，该协议的缺点是每处理一个请求都需要fork一个全新的进程，十分低效。FastCGI是更快的CGI，其特点是允许在一个进程内处理多个请求，而不是一个请求处理完毕就直接结束进程。FPM是FastCGI的实现，是一个PHP进程管理器，包含master进程和worker进程两种进程：master进程只有一个，负责监听端口，接收来自Web Server的请求，而Worker进程则一般有多个，每个进程内部都嵌入了一个PHP解释器，是PHP代码真正执行的地方。<br>master进程只有一个，负责监听端口和管理worker进程，每次传来任务，与前端的nginx建立3次握手后放入连接队列，供worker进程进行accept，当worker进程出现错误或执行超时时，负责将worker进程重启或者杀掉，是php-fpm模型中的大内总管。<br>Worker进程是工作进程，每个worker进程都独立的执行php程序脚本，然后把执行的结果通过fastcgi协议交给nginx，执行过程中受master的管理。在工作中，worker进程去竞争accept管理进程master的链接队列，accept函数将从连接请求队列中获得连接信息，创建新的socket，并返回该套接字的fd，新创建的socket用于服务器与nginx的通信，而原来的套接字仍然处于监听状态。</p>
+<p>FPM处理请求流程如下：</p>
+<ul>
+<li>FPM 的 master 进程接收到请求;</li>
+<li>master 进程根据配置指派特定的 worker 进程进行请求处理，如果没有可用进程，返回错误，这也是我们配合 Nginx 遇到502错误比较多的原因;</li>
+<li>worker 进程处理请求，如果超时，返回504错误;</li>
+<li>请求处理结束，返回结果;</li>
+</ul>
+<p>FPM处理请求流程如上。那么下面阐述Nginx如何发送请求给FPM。Nginx的fastcgi模块提供了fastcgi_param来处理指令间的映射关系。<br>以我们代码的配置文件为例。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fastcgi_connect_timeout <span class="number">300</span>;<span class="comment">//后端连接时间</span></span><br><span class="line">    fastcgi_send_timeout <span class="number">300</span>;<span class="comment">//数据发送时间，两次成功发送时间差</span></span><br><span class="line">    fastcgi_read_timeout <span class="number">300</span>;<span class="comment">//数据接收时间，两次成功接收时间差</span></span><br><span class="line">    fastcgi_buffer_size <span class="number">4</span>k;<span class="comment">//存放fastcgi传过来的响应头，一般设置为分页大小</span></span><br><span class="line">    fastcgi_buffers <span class="number">256</span> <span class="number">4</span>k;<span class="comment">//存放fastcgi传过来的相应内容，一般设置分页的倍数，</span></span><br><span class="line">    fastcgi_busy_buffers_size <span class="number">8</span>k;</span><br><span class="line">    fastcgi_max_temp_file_size <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      location ~ index\.php$ &#123;</span><br><span class="line">        fastcgi_split_path_info ^(.+\.php)(/.+)$;</span><br><span class="line">        fastcgi_pass <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9001</span>;</span><br><span class="line">        <span class="keyword">include</span> tengine.fastcgi_params;</span><br><span class="line">        fastcgi_param REQUEST_URI $request_url;</span><br><span class="line">        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>总结：Nginx是Web服务器，php-fpm是php进程管理器，两者遵循fastcgi的协议进行通信。Nginx负责静态类似html文件的处理，php-fpm负责php脚本语言的执行</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/23/1/" rel="next" title="PHP学习笔记之一">
+                <i class="fa fa-chevron-left"></i> PHP学习笔记之一
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -339,8 +465,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -393,6 +528,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#联系"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x8054;&#x7CFB;" class="headerlink" title="&#x8054;&#x7CFB;"></a>&#x8054;&#x7CFB;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

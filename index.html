@@ -292,6 +292,147 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/02/FastCGI和FPM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张林林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青石板上的月光照进这山城">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/02/FastCGI和FPM/" itemprop="url">Nginx和FPM</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T12:04:12+08:00">
+                2018-04-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/02/FastCGI和FPM/" class="leancloud_visitors" data-flag-title="Nginx和FPM">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在学习过CGI和FPM之后，我们这节来学习Nginx与Fpm的工作机制。</p>
+<h2 id="联系"><a href="#联系" class="headerlink" title="联系"></a>联系</h2><p>CGI是Web服务器与后台语言交互的协议，该协议的缺点是每处理一个请求都需要fork一个全新的进程，十分低效。FastCGI是更快的CGI，其特点是允许在一个进程内处理多个请求，而不是一个请求处理完毕就直接结束进程。FPM是FastCGI的实现，是一个PHP进程管理器，包含master进程和worker进程两种进程：master进程只有一个，负责监听端口，接收来自Web Server的请求，而Worker进程则一般有多个，每个进程内部都嵌入了一个PHP解释器，是PHP代码真正执行的地方。<br>master进程只有一个，负责监听端口和管理worker进程，每次传来任务，与前端的nginx建立3次握手后放入连接队列，供worker进程进行accept，当worker进程出现错误或执行超时时，负责将worker进程重启或者杀掉，是php-fpm模型中的大内总管。<br>Worker进程是工作进程，每个worker进程都独立的执行php程序脚本，然后把执行的结果通过fastcgi协议交给nginx，执行过程中受master的管理。在工作中，worker进程去竞争accept管理进程master的链接队列，accept函数将从连接请求队列中获得连接信息，创建新的socket，并返回该套接字的fd，新创建的socket用于服务器与nginx的通信，而原来的套接字仍然处于监听状态。</p>
+<p>FPM处理请求流程如下：</p>
+<ul>
+<li>FPM 的 master 进程接收到请求;</li>
+<li>master 进程根据配置指派特定的 worker 进程进行请求处理，如果没有可用进程，返回错误，这也是我们配合 Nginx 遇到502错误比较多的原因;</li>
+<li>worker 进程处理请求，如果超时，返回504错误;</li>
+<li>请求处理结束，返回结果;</li>
+</ul>
+<p>FPM处理请求流程如上。那么下面阐述Nginx如何发送请求给FPM。Nginx的fastcgi模块提供了fastcgi_param来处理指令间的映射关系。<br>以我们代码的配置文件为例。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fastcgi_connect_timeout <span class="number">300</span>;<span class="comment">//后端连接时间</span></span><br><span class="line">    fastcgi_send_timeout <span class="number">300</span>;<span class="comment">//数据发送时间，两次成功发送时间差</span></span><br><span class="line">    fastcgi_read_timeout <span class="number">300</span>;<span class="comment">//数据接收时间，两次成功接收时间差</span></span><br><span class="line">    fastcgi_buffer_size <span class="number">4</span>k;<span class="comment">//存放fastcgi传过来的响应头，一般设置为分页大小</span></span><br><span class="line">    fastcgi_buffers <span class="number">256</span> <span class="number">4</span>k;<span class="comment">//存放fastcgi传过来的相应内容，一般设置分页的倍数，</span></span><br><span class="line">    fastcgi_busy_buffers_size <span class="number">8</span>k;</span><br><span class="line">    fastcgi_max_temp_file_size <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      location ~ index\.php$ &#123;</span><br><span class="line">        fastcgi_split_path_info ^(.+\.php)(/.+)$;</span><br><span class="line">        fastcgi_pass <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9001</span>;</span><br><span class="line">        <span class="keyword">include</span> tengine.fastcgi_params;</span><br><span class="line">        fastcgi_param REQUEST_URI $request_url;</span><br><span class="line">        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>总结：Nginx是Web服务器，php-fpm是php进程管理器，两者遵循fastcgi的协议进行通信。Nginx负责静态类似html文件的处理，php-fpm负责php脚本语言的执行</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -402,7 +543,7 @@
 <h3 id="SAPI"><a href="#SAPI" class="headerlink" title="SAPI"></a>SAPI</h3><p>SAPI是php的宿主环境，也是整个PHP框架最外层的一部分，是进入php内部的入口。主要负责php框架最外层的一部分，经常用到的两个sapi是cli,fpm。</p>
 <h3 id="ZendVM"><a href="#ZendVM" class="headerlink" title="ZendVM"></a>ZendVM</h3><p>该部分是php语言的核心实现，主要由两部分组成：编译器，执行器。其中编译器负责将php代码解释为执行器可识别的执行的指令，执行器负责执行编译器解释出指令，是抽象出来的虚拟计算机。</p>
 <h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>模块初始化阶段<br>请求初始化阶段<br>执行脚本阶段<br>请求关闭阶段<br>模块关闭阶段</p>
-<h2 id="FPM"><a href="#FPM" class="headerlink" title="FPM"></a>FPM</h2><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h3><p>FPM是一种多进程模型，主进程负责管理子进程，基本的事件由子进程处理。masster进程启动时会创建一个socker，但不会接收、处理请求，而是由fork出的worker子进程完成请求的接收处理。master进程与worker进程不会直接进行通信，master通过共享内存获取worker进程的信息，master进程通过发送信号的方式杀掉worker进程。</p>
+<h2 id="FPM"><a href="#FPM" class="headerlink" title="FPM"></a>FPM</h2><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h3><p>FPM是一种多进程模型，主进程负责管理子进程，基本的事件由子进程处理。master进程负责CGI、PHP公共环境的初始化、监听端口，接收来自 Web Server 的请求，启动时会创建一个socket，但不会接收、处理请求，而是由fork出的worker子进程完成请求的接收处理。worker进程则一般有多个（具体数据根据实际需要配置），每个进程内部都嵌入了一个 PHP 解释器，是 PHP 代码真正执行的地方。在worker进程处理请求时，无需再次初始化PHP运行环境，这也是php-fpm性能优异的原因之一。master进程与worker进程不会直接进行通信，master通过共享内存获取worker进程的信息，master进程通过发送信号的方式杀掉worker进程。</p>
 <h3 id="php-fpm-conf配置详解"><a href="#php-fpm-conf配置详解" class="headerlink" title="php-fpm.conf配置详解"></a>php-fpm.conf配置详解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line"></span><br><span class="line">pid = run/php-fpm.pid </span><br><span class="line">//pid设置，一定要开启。默认在var/run/php-fpm.pid。pid文件的位置</span><br><span class="line"></span><br><span class="line">error_log = log/php-fpm.log </span><br><span class="line">//错误日志位置。默认在var/log/php-fpm.log</span><br><span class="line"></span><br><span class="line">emergency_restart_threshold = 20 </span><br><span class="line">//如果子进程在emergen_restart_intval设定的时间内收到该参数设定次数的SIGSEGV或者SIGBUS退出信号，则FPM会重新启动。0表示关闭此功能</span><br><span class="line"></span><br><span class="line">emergency_restart_interval = 60s</span><br><span class="line">//用于设定平滑重启的间隔时间。这么做有助于解决加速器中共享内存的使用问题。</span><br><span class="line"></span><br><span class="line">process_control_timeout = 0</span><br><span class="line">//设置子进程接受主进程复用信号的超时时间. 可用单位: s(秒), m(分), h(小时), 或者 d(天) 默认单位: s(秒). 默认值: 0.</span><br><span class="line"></span><br><span class="line">process.max = 2048</span><br><span class="line">//Fork的最大FPM进程数。使用动态管理进程数时，此设计可以控制在一个进程池内的全局进程数量</span><br><span class="line"></span><br><span class="line">daemonize = yes</span><br><span class="line">//后台进程</span><br><span class="line"></span><br><span class="line">rlimit_files = 65535</span><br><span class="line">//设置master进程打开的文件描述符的rlimit限制. 默认值:系统定义值默认可打开句柄是1024，可使用 ulimit -n查看，ulimit -n 2048修改。</span><br><span class="line"></span><br><span class="line">rlimit_core = 67108864</span><br><span class="line">//设置核心rlimit最大限制值. 可用值: &apos;unlimited&apos; 、0或者正整数. 默认值: 系统定义值.</span><br><span class="line"></span><br><span class="line">events.mechanism = epoll</span><br><span class="line">//指定事件驱动模型，该配置指定master进程</span><br><span class="line"></span><br><span class="line">emergency_restart_threshold = 10</span><br><span class="line"></span><br><span class="line">emergency_restart_interval = 5</span><br><span class="line"></span><br><span class="line">user = www</span><br><span class="line"></span><br><span class="line">group = www</span><br><span class="line"></span><br><span class="line">//启动进程的用户和用户组</span><br><span class="line"></span><br><span class="line">listen = 127.0.0.1:9000</span><br><span class="line">//fpm监听端口，即nginx中php处理的地址，一般默认值即可。可用格式为: &apos;ip:port&apos;, &apos;port&apos;, &apos;/path/to/unix/socket&apos;. 每个进程池都需要设置。如果nginx和php在不同的机器上，分布式处理，就设置ip这里就可以了。</span><br><span class="line"></span><br><span class="line">listen.allowed_clients = 127.0.0.1</span><br><span class="line">//允许访问FastCGI进程的IP白名单，设置any为不限制IP，如果要设置其他主机的nginx也能访问这台FPM进程，listen处要设置成本地可被访问的IP。默认值是any。每个地址是用逗号分隔. 如果没有设置或者为空，则允许任何服务器请求连接。</span><br><span class="line"></span><br><span class="line">pm = dynamic</span><br><span class="line">//php-fpm进程启动模式，可选项有static，dynamic，ondemand。dynamic表明进程数是变化的。</span><br><span class="line"></span><br><span class="line">pm.max_children = 513 </span><br><span class="line">//子进程最大启动数</span><br><span class="line"></span><br><span class="line">pm.start_servers = 16 </span><br><span class="line">//启动时的进程数</span><br><span class="line"></span><br><span class="line">pm.min_spare_servers = 16</span><br><span class="line">//保证空闲进程最小值，如果空闲进程数小于此值，则创建新的子进程</span><br><span class="line"></span><br><span class="line">pm.max_spare_servers = 32</span><br><span class="line">//保证空闲进程数最大值，如果空闲进程数大于此值，则进行清理。</span><br><span class="line"></span><br><span class="line">pm.max_requests = 1500</span><br><span class="line">//设置每个子进程重生之前服务的请求数，如果设置为0则一直接收请求。</span><br><span class="line"></span><br><span class="line">pm.status_path = /h3_monitor</span><br><span class="line">//FPM状态页面的网址. 如果没有设置, 则无法访问状态页面. 默认值: none. munin监控会使用到</span><br><span class="line"></span><br><span class="line">slowlog = /data0/www/logs/$pool-slow_log</span><br><span class="line">//慢请求的记录日志,配合request_slowlog_timeout使用，默认关闭</span><br><span class="line"></span><br><span class="line">request_slowlog_timeout = 3</span><br><span class="line">//当一个请求该设置的超时时间后，就会将对应的PHP调用堆栈信息完整写入到慢日志中. 设置为 &apos;0&apos; 表示 &apos;Off&apos;</span><br><span class="line"></span><br><span class="line">request_terminate_timeout = 20</span><br><span class="line">//设置单个请求的超时中止时间. 该选项可能会对php.ini设置中的&apos;max_execution_time&apos;因为某些特殊原因没有中止运行的脚本有用. 设置为 &apos;0&apos; 表示 &apos;Off&apos;.当经常出现502错误时可以尝试更改此选项。</span><br><span class="line"></span><br><span class="line">catch_workers_output = no security.limit_extensions = &quot;&quot;</span><br><span class="line">//重定向运行过程中的stdout和stderr到主要的错误日志文件中. 如果没有设置, stdout 和 stderr 将会根据FastCGI的规则呗重定向到/dev/null,默认值：空.</span><br></pre></td></tr></table></figure>
 
           
@@ -676,7 +817,7 @@
       
         
           
-            <h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。</p>
+            <h1 id="CGI简介"><a href="#CGI简介" class="headerlink" title="CGI简介"></a>CGI简介</h1><p>全称是“通用网关接口”，它描述了客户端和程序之间传输数据的一种标准。每处理一个请求都需要fork一个全新的进程。</p>
 <h2 id="CGI的运行原理"><a href="#CGI的运行原理" class="headerlink" title="CGI的运行原理"></a>CGI的运行原理</h2><ol>
 <li>客户端访问某个 URL 地址之后，通过 GET/POST/PUT 等方式提交数据，并通过 HTTP 协议向 Web 服务器发出请求。</li>
 <li>服务器端的 HTTP Daemon（守护进程）启动一个子进程。然后在子进程中，将 HTTP 请求里描述的信息通过标准输入 stdin 和环境变量传递给 URL 指定的 CGI 程序，并启动此应用程序进行处理，处理结果通过标准输出 stdout 返回给 HTTP Daemon 子进程。</li>
@@ -693,7 +834,7 @@
 <li>子进程将结果返回给客户端。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"> </span><br><span class="line">#define SERV_PORT 9003</span><br><span class="line"> </span><br><span class="line">char *str_join(char *str1, char *str2);</span><br><span class="line"> </span><br><span class="line">char *html_response(char *res, char *buf);</span><br><span class="line"> </span><br><span class="line">int main(void) &#123;</span><br><span class="line">    int lfd, cfd;</span><br><span class="line">    struct sockaddr_in serv_addr, clin_addr;</span><br><span class="line">    socklen_t clin_len;</span><br><span class="line">    char buf[1024], web_result[1024];</span><br><span class="line">    int len;</span><br><span class="line">    FILE *cin;</span><br><span class="line"> </span><br><span class="line">    if ((lfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) &#123;</span><br><span class="line">        perror(&quot;create socket failed&quot;);</span><br><span class="line">        exit(1);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    memset(&amp;serv_addr, 0, sizeof(serv_addr));</span><br><span class="line">    serv_addr.sin_family = AF_INET;</span><br><span class="line">    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    serv_addr.sin_port = htons(SERV_PORT);</span><br><span class="line"> </span><br><span class="line">    if (bind(lfd, (struct sockaddr *) &amp;serv_addr, sizeof(serv_addr)) == -1) &#123;</span><br><span class="line">        perror(&quot;bind error&quot;);</span><br><span class="line">        exit(1);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    if (listen(lfd, 128) == -1) &#123;</span><br><span class="line">        perror(&quot;listen error&quot;);</span><br><span class="line">        exit(1);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    signal(SIGCLD, SIG_IGN);</span><br><span class="line"> </span><br><span class="line">    while (1) &#123;</span><br><span class="line">        clin_len = sizeof(clin_addr);</span><br><span class="line">        if ((cfd = accept(lfd, (struct sockaddr *) &amp;clin_addr, &amp;clin_len)) == -1) &#123;</span><br><span class="line">            perror(&quot;接收错误\n&quot;);</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        cin = fdopen(cfd, &quot;r&quot;);</span><br><span class="line">        setbuf(cin, (char *) 0);</span><br><span class="line">        fgets(buf, 1024, cin); //读取第一行</span><br><span class="line">        printf(&quot;\n%s&quot;, buf);</span><br><span class="line"> </span><br><span class="line">        //============================ cgi 环境变量设置演示 ============================</span><br><span class="line"> </span><br><span class="line">        // 例如 &quot;GET /cgi-bin/user?id=1 HTTP/1.1&quot;;</span><br><span class="line"> </span><br><span class="line">        char *delim = &quot; &quot;;</span><br><span class="line">        char *p;</span><br><span class="line">        char *method, *filename, *query_string;</span><br><span class="line">        char *query_string_pre = &quot;QUERY_STRING=&quot;;</span><br><span class="line"> </span><br><span class="line">        method = strtok(buf, delim);         // GET</span><br><span class="line">        p = strtok(NULL, delim);             // /cgi-bin/user?id=1 </span><br><span class="line">        filename = strtok(p, &quot;?&quot;);           // /cgi-bin/user</span><br><span class="line"> </span><br><span class="line">        if (strcmp(filename, &quot;/favicon.ico&quot;) == 0) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        query_string = strtok(NULL, &quot;?&quot;);    // id=1</span><br><span class="line">        putenv(str_join(query_string_pre, query_string));</span><br><span class="line"> </span><br><span class="line">        //============================ cgi 环境变量设置演示 ============================</span><br><span class="line"> </span><br><span class="line">        int pid = fork();</span><br><span class="line"> </span><br><span class="line">        if (pid &gt; 0) &#123;</span><br><span class="line">            close(cfd);</span><br><span class="line">        &#125;</span><br><span class="line">        else if (pid == 0) &#123;</span><br><span class="line">            close(lfd);</span><br><span class="line">            FILE *stream = popen(str_join(&quot;.&quot;, filename), &quot;r&quot;);</span><br><span class="line">            fread(buf, sizeof(char), sizeof(buf), stream);</span><br><span class="line">            html_response(web_result, buf);</span><br><span class="line">            write(cfd, web_result, sizeof(web_result));</span><br><span class="line">            pclose(stream);</span><br><span class="line">            close(cfd);</span><br><span class="line">            exit(0);</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            perror(&quot;fork error&quot;);</span><br><span class="line">            exit(1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    close(lfd);</span><br><span class="line"> </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">char *str_join(char *str1, char *str2) &#123;</span><br><span class="line">    char *result = malloc(strlen(str1) + strlen(str2) + 1);</span><br><span class="line">    if (result == NULL) exit(1);</span><br><span class="line">    strcpy(result, str1);</span><br><span class="line">    strcat(result, str2);</span><br><span class="line"> </span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">char *html_response(char *res, char *buf) &#123;</span><br><span class="line">    char *html_response_template = &quot;HTTP/1.1 200 OK\r\nContent-Type:text/html\r\nContent-Length: %d\r\nServer: mengkang\r\n\r\n%s&quot;;</span><br><span class="line"> </span><br><span class="line">    sprintf(res, html_response_template, strlen(buf), buf);</span><br><span class="line"> </span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="FastCGI-简介"><a href="#FastCGI-简介" class="headerlink" title="FastCGI 简介"></a>FastCGI 简介</h1><p>FastCGI是web服务器和处理程序之间通信的一种协议，是CGI的一种改进方案，它常驻进程，可以一直执行，在请求达到时不会话费时间去fork一个进程来处理，将CGI解释器进程保存在内存中并接受FASTCGI进程管理器调度，可以提供好的性能。</p>
+<h1 id="FastCGI-简介"><a href="#FastCGI-简介" class="headerlink" title="FastCGI 简介"></a>FastCGI 简介</h1><p>FastCGI是web服务器和处理程序之间通信的一种协议，是CGI的一种改进方案，它常驻进程，可以一直执行，在请求达到时不会花费时间去fork一个进程来处理，将CGI解释器进程保存在内存中并接受FASTCGI进程管理器调度，可以提供好的性能。</p>
 <h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><ol>
 <li>FastCGI 进程管理器自身初始化，启动多个 CGI 解释器进程，并等待来自 Web Server 的连接。</li>
 <li>Web 服务器与 FastCGI 进程管理器进行 Socket 通信，通过 FastCGI 协议发送 CGI 环境变量和标准输入数据给 CGI 解释器进程。</li>
@@ -701,6 +842,8 @@
 <li>CGI 解释器进程接着等待并处理来自 Web Server 的下一个连接。</li>
 </ol>
 <h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>FastCGI 与传统 CGI 模式的区别之一则是 Web 服务器不是直接执行 CGI 程序了，而是通过 Socket 与 FastCGI 响应器（FastCGI 进程管理器）进行交互，也正是由于 FastCGI 进程管理器是基于 Socket 通信的，所以也是分布式的，Web 服务器可以和 CGI 响应器服务器分开部署。Web 服务器需要将数据 CGI/1.1 的规范封装在遵循 FastCGI 协议包中发送给 FastCGI 响应器程序。</p>
+<p>FPM是FastCGI的实现，任何实现了FastCGI协议的web服务器都能够与之通信。</p>
+<h3 id="nginx与PHP-FPM通信方式"><a href="#nginx与PHP-FPM通信方式" class="headerlink" title="nginx与PHP-FPM通信方式"></a>nginx与PHP-FPM通信方式</h3><p>现流行的有两种通信方式，unix socket和tcp梁总方式。<br>    unix socket是一种终端，可以使同一台操作系统上的两个或多个进程进行数据通信。优点是可以跨服务器，效率高。且消耗资源少，因为socket之间在nginx和php-fpm的进程之间通信，而tcp需要经过本地回环驱动，还要申请临时端口和tcp相关资源。<br>    unix socket会显得不是那么稳定，当并发连接数爆发时，会产生大量的长时缓存，在没有面向连接协议支撑的情况下，大数据包很有可能就直接出错并不会返回异常。而TCP这样的面向连接的协议，多少可以保证通信的正确性和完整性。</p>
 
           
         
@@ -1296,7 +1439,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
