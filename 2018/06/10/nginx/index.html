@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Nginx Unit初探及其性能对比分析Nginx Unit是一个动态的网络应用服务器，其设计初衷就是可运行多种编程语言；Nginx Unit使用REST API进行动态配置；没有静态配置文件，所有配置更改直接在内存中发生且无需重新加载配置或重启服务即可生效。它具有以下特征：  使用RESTful JSON API进行动态重配置服务器； 同时支持多语言，多版本应用；即将支持的特性有： 动态语言的进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="青石板上的月光照进这山城">
+<meta property="og:url" content="http://yoursite.com/2018/06/10/nginx/index.html">
+<meta property="og:site_name" content="青石板上的月光照进这山城">
+<meta property="og:description" content="Nginx Unit初探及其性能对比分析Nginx Unit是一个动态的网络应用服务器，其设计初衷就是可运行多种编程语言；Nginx Unit使用REST API进行动态配置；没有静态配置文件，所有配置更改直接在内存中发生且无需重新加载配置或重启服务即可生效。它具有以下特征：  使用RESTful JSON API进行动态重配置服务器； 同时支持多语言，多版本应用；即将支持的特性有： 动态语言的进">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-10T14:04:52.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="青石板上的月光照进这山城">
+<meta name="twitter:description" content="Nginx Unit初探及其性能对比分析Nginx Unit是一个动态的网络应用服务器，其设计初衷就是可运行多种编程语言；Nginx Unit使用REST API进行动态配置；没有静态配置文件，所有配置更改直接在内存中发生且无需重新加载配置或重启服务即可生效。它具有以下特征：  使用RESTful JSON API进行动态重配置服务器； 同时支持多语言，多版本应用；即将支持的特性有： 动态语言的进">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/10/nginx/"/>
+
+
+
+
+
+  <title> | 青石板上的月光照进这山城</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">青石板上的月光照进这山城</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            Schedule
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            Sitemap
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            Commonweal 404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/nginx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张林林">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青石板上的月光照进这山城">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T22:04:52+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/10/nginx/" class="leancloud_visitors" data-flag-title="">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Nginx-Unit初探及其性能对比分析"><a href="#Nginx-Unit初探及其性能对比分析" class="headerlink" title="Nginx Unit初探及其性能对比分析"></a>Nginx Unit初探及其性能对比分析</h2><p>Nginx Unit是一个动态的网络应用服务器，其设计初衷就是可运行多种编程语言；<br>Nginx Unit使用REST API进行动态配置；没有静态配置文件，所有配置更改直接在内存中发生且无需重新加载配置或重启服务即可生效。<br>它具有以下特征：</p>
+<ul>
+<li>使用RESTful JSON API进行动态重配置服务器；</li>
+<li>同时支持多语言，多版本应用；<br>即将支持的特性有：</li>
+<li>动态语言的进程管理功能；</li>
+<li>TLS支持；</li>
+<li>TCP,HTTP,HTTPS,HTTP/2路由和代理。</li>
+</ul>
+<p>下面我们以一个简单的php-test应用为例介绍unit的安装和使用。</p>
+<h1 id="安装Nginx-Unit"><a href="#安装Nginx-Unit" class="headerlink" title="安装Nginx Unit"></a>安装Nginx Unit</h1><p>以centos 6.9为例。</p>
+<ul>
+<li>创建/etc/yum.repos.d/unit.repo。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[unit]</span><br><span class="line">name=unit repo</span><br><span class="line">baseurl=https:<span class="comment">//packages.nginx.org/unit/centos/$releasever/$basearch/</span></span><br><span class="line">gpgcheck=<span class="number">0</span></span><br><span class="line">enabled=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>开始安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia yum.repos.d]# yun install unit</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="配置和运行"><a href="#配置和运行" class="headerlink" title="配置和运行"></a>配置和运行</h1><p>  Nginx Unit的配置方法是通过本地socket文件调用RESTful接口实现的。</p>
+<ul>
+<li>首先，我们创建一个目录并初始配置文件。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia ~]# cd /data0/www/htdocs/nginxUnit/</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在该目录下创建一个index.php文件用于测试。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo &quot;hello world&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在/data0/www/htdocs目录下创建一个名为phpConfig.json的配置文件。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     &quot;listeners&quot;: &#123;</span><br><span class="line">         &quot;*:8000&quot;: &#123;</span><br><span class="line">             &quot;application&quot;: &quot;php-test&quot;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &quot;applications&quot;: &#123;</span><br><span class="line">         &quot;php-test&quot;: &#123;</span><br><span class="line">             &quot;type&quot;: &quot;php&quot;,</span><br><span class="line">              &quot;processes&quot;: 20,</span><br><span class="line">              &quot;root&quot;: &quot;/data0/www/htdocs/nginxUnit&quot;,</span><br><span class="line">              &quot;index&quot;: &quot;index.php&quot;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>该配置文件包含一个监听器和应用配置。当应用被通过HTTP访问时，须定义至少一个监听器listeners。监听器时一个IP地址和一个被定义的端口，当用户访问时，unit的监听器会返回正确的结果，IP地址可以是一个完整的IP地址（如127.0.0.1:8000)或（*：8000）</p>
+<ul>
+<li>在命令行执行如下命令来创建一个应用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia nginxUnit]# curl -X PUT -d @/data0/www/htdocs/phpConfig.json --unix-socket /var/run/control.unit.sock http://localhost</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>成功配置后会出现如下提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia htdocs]# curl -X PUT -d @/data0/www/htdocs/phpConfig.json --unix-socket /var/run/control.unit.sock http://localhost</span><br><span class="line">&#123;</span><br><span class="line">    &quot;success&quot;: &quot;Reconfiguration done.&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时可以访问<a href="http://localhost:8000/查看index.php的程序是否正常运行。" target="_blank" rel="noopener">http://localhost:8000/查看index.php的程序是否正常运行。</a><br>至此我们的环境搭建和应用配置已经完成。</p>
+<h1 id="性能对比"><a href="#性能对比" class="headerlink" title="性能对比"></a>性能对比</h1><p>接下来我们进行性能对比分析。在进行分析之前，介绍下基本环境。<br>硬件环境：</p>
+<ul>
+<li>CPU:1</li>
+<li>内存：4G<br>软件环境：<br>PHP:7.0.6</li>
+</ul>
+<h2 id="Nginx-Unit的运行结果"><a href="#Nginx-Unit的运行结果" class="headerlink" title="Nginx Unit的运行结果"></a>Nginx Unit的运行结果</h2><p>运行如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia ~]# ab -n 10000 -c 50 http://127.0.0.1:8000/</span><br></pre></td></tr></table></figure></p>
+<p>查看输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Server Software:        Unit/1.1</span><br><span class="line">Server Hostname:        127.0.0.1</span><br><span class="line">Server Port:            8000</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        11 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      50</span><br><span class="line">Time taken for tests:   2.044 seconds</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        0</span><br><span class="line">Write errors:           0</span><br><span class="line">Total transferred:      1353510 bytes</span><br><span class="line">HTML transferred:       110286 bytes</span><br><span class="line">Requests per second:    4891.31 [#/sec] (mean)</span><br><span class="line">Time per request:       10.222 [ms] (mean)</span><br><span class="line">Time per request:       0.204 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          646.53 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        0    4   2.4      4      10</span><br><span class="line">Processing:     1    6   2.3      7      12</span><br><span class="line">Waiting:        0    5   2.6      6      11</span><br><span class="line">Total:          3   10   2.7      9      19</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%      9</span><br><span class="line">  66%      9</span><br><span class="line">  75%     10</span><br><span class="line">  80%     11</span><br><span class="line">  90%     15</span><br><span class="line">  95%     16</span><br><span class="line">  98%     17</span><br><span class="line">  99%     17</span><br><span class="line"> 100%     19 (longest request)</span><br></pre></td></tr></table></figure></p>
+<h2 id="同期对比tengine-php-fpm环境下压测结果。"><a href="#同期对比tengine-php-fpm环境下压测结果。" class="headerlink" title="同期对比tengine+php-fpm环境下压测结果。"></a>同期对比tengine+php-fpm环境下压测结果。</h2><p>先简单列出我们的tengine的基本配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">user  www www;</span><br><span class="line">worker_processes auto;</span><br><span class="line">worker_rlimit_nofile 65535;</span><br><span class="line"></span><br><span class="line">error_log  /data0/www/logs/error.log;</span><br><span class="line">pid        var/run/tengine.pid;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  65535;</span><br><span class="line">    use epoll;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line"></span><br><span class="line">    charset      utf-8;</span><br><span class="line">    client_header_buffer_size 8k;</span><br><span class="line">    client_max_body_size 50m;</span><br><span class="line">    client_body_timeout 10s;</span><br><span class="line">    client_header_timeout 5s;</span><br><span class="line">    large_client_header_buffers 8 4k;</span><br><span class="line"></span><br><span class="line">    server_tokens off;</span><br><span class="line">    server_name_in_redirect off;</span><br><span class="line">    server_names_hash_bucket_size 128;</span><br><span class="line"></span><br><span class="line">    include       tengine.mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    log_format  main  &apos;$http_x_forwarded_for - $http_host [$time_local] &quot;$request&quot; $request_length &apos;</span><br><span class="line">                      &apos;$status $body_bytes_sent $request_time &quot;$http_referer&quot; &apos;</span><br><span class="line">                      &apos;&quot;$http_user_agent&quot; $remote_addr &quot;-&quot; &quot;-&quot; &apos;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line"></span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    open_file_cache max=65535 inactive=20s;</span><br><span class="line">    open_file_cache_valid 30s;</span><br><span class="line">    open_file_cache_min_uses 3;</span><br><span class="line"></span><br><span class="line">    fastcgi_connect_timeout 300;</span><br><span class="line">    fastcgi_send_timeout 300;</span><br><span class="line">    fastcgi_read_timeout 300;</span><br><span class="line">    fastcgi_buffer_size 4k;</span><br><span class="line">    fastcgi_buffers 256 4k;</span><br><span class="line">    fastcgi_busy_buffers_size 8k;</span><br><span class="line">    fastcgi_max_temp_file_size 0;</span><br><span class="line"></span><br><span class="line">    gzip on;</span><br><span class="line">    gzip_min_length  1k;</span><br><span class="line">    gzip_buffers     8 64k;</span><br><span class="line">    gzip_http_version 1.0;</span><br><span class="line">    gzip_comp_level 5;</span><br><span class="line">    gzip_types   text/plain application/x-javascript text/css application/json application/xml application/x-shockwave-flash application/javascript;</span><br><span class="line">    gzip_vary on;</span><br><span class="line">    add_header via $hostname;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name unit.local;</span><br><span class="line">    root /data0/www/htdocs/nginxUnit/index.php;</span><br><span class="line">    error_log /data0/www/logs/unit.log;</span><br><span class="line"></span><br><span class="line">    index index.html index.php;</span><br><span class="line"></span><br><span class="line">    set $request_url $request_uri;</span><br><span class="line">    if ($request_uri ~ ^/foilo/(.*)$) &#123;</span><br><span class="line">        set $request_url /$1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files $uri $uri/ /index.php?$query_string;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ index\.php$ &#123;</span><br><span class="line">        fastcgi_split_path_info ^(.+\.php)(/.+)$;</span><br><span class="line">        fastcgi_pass 127.0.0.1:9008;</span><br><span class="line">        include tengine.fastcgi_params;</span><br><span class="line">        fastcgi_param REQUEST_URI $request_url;</span><br><span class="line">        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以及php-fpm的基本配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">pid = run/php-fpm.pid</span><br><span class="line">error_log = log/php-fpm.log</span><br><span class="line">emergency_restart_threshold = 20</span><br><span class="line">emergency_restart_interval = 60s</span><br><span class="line">process_control_timeout = 0</span><br><span class="line">process.max = 2048</span><br><span class="line">daemonize = yes</span><br><span class="line">rlimit_files = 65535</span><br><span class="line">rlimit_core = 67108864</span><br><span class="line">events.mechanism = epoll</span><br><span class="line">emergency_restart_threshold = 10</span><br><span class="line">emergency_restart_interval = 5</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">; auto include phpfpm configure</span><br><span class="line">include = etc/fpm.d/*.conf</span><br><span class="line"></span><br><span class="line">[unit.local]</span><br><span class="line">user = www</span><br><span class="line">group = www</span><br><span class="line">listen = 127.0.0.1:9008</span><br><span class="line">listen.allowed_clients = 127.0.0.1</span><br><span class="line">pm = dynamic</span><br><span class="line">pm.max_children = 513</span><br><span class="line">pm.start_servers = 1</span><br><span class="line">pm.min_spare_servers = 1</span><br><span class="line">pm.max_spare_servers = 32</span><br><span class="line">pm.max_requests = 1500</span><br><span class="line">pm.status_path = /h3_monitor</span><br><span class="line">slowlog = /data0/www/logs/$pool-slow_log</span><br><span class="line">request_slowlog_timeout = 3</span><br><span class="line">request_terminate_timeout = 20</span><br><span class="line">catch_workers_output = no</span><br><span class="line">security.limit_extensions = &quot;&quot;</span><br></pre></td></tr></table></figure></p>
+<p>执行如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@lianjia ~]# ab -n 10000 -c 50 http://unit.local/</span><br></pre></td></tr></table></figure></p>
+<p>其结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Server Software:        Tengine</span><br><span class="line">Server Hostname:        unit.local</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        11 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      50</span><br><span class="line">Time taken for tests:   3.847 seconds</span><br><span class="line">Complete requests:      10000</span><br><span class="line">Failed requests:        0</span><br><span class="line">Write errors:           0</span><br><span class="line">Total transferred:      2050000 bytes</span><br><span class="line">HTML transferred:       110000 bytes</span><br><span class="line">Requests per second:    2599.48 [#/sec] (mean)</span><br><span class="line">Time per request:       19.235 [ms] (mean)</span><br><span class="line">Time per request:       0.385 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          520.40 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        0    0   0.1      0       3</span><br><span class="line">Processing:     2   19   1.4     19      30</span><br><span class="line">Waiting:        2   19   1.4     19      30</span><br><span class="line">Total:          4   19   1.4     19      30</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%     19</span><br><span class="line">  66%     19</span><br><span class="line">  75%     19</span><br><span class="line">  80%     19</span><br><span class="line">  90%     20</span><br><span class="line">  95%     21</span><br><span class="line">  98%     24</span><br><span class="line">  99%     25</span><br><span class="line"> 100%     30 (longest request)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/02/FastCGI和FPM/" rel="next" title="Nginx和FPM">
+                <i class="fa fa-chevron-left"></i> Nginx和FPM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">张林林</p>
+              <p class="site-description motion-element" itemprop="description">一个程序员的一生</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-Unit初探及其性能对比分析"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Nginx-Unit&#x521D;&#x63A2;&#x53CA;&#x5176;&#x6027;&#x80FD;&#x5BF9;&#x6BD4;&#x5206;&#x6790;" class="headerlink" title="Nginx Unit&#x521D;&#x63A2;&#x53CA;&#x5176;&#x6027;&#x80FD;&#x5BF9;&#x6BD4;&#x5206;&#x6790;"></a>Nginx Unit&#x521D;&#x63A2;&#x53CA;&#x5176;&#x6027;&#x80FD;&#x5BF9;&#x6BD4;&#x5206;&#x6790;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Nginx-Unit"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x5B89;&#x88C5;Nginx-Unit" class="headerlink" title="&#x5B89;&#x88C5;Nginx Unit"></a>&#x5B89;&#x88C5;Nginx Unit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置和运行"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x914D;&#x7F6E;&#x548C;&#x8FD0;&#x884C;" class="headerlink" title="&#x914D;&#x7F6E;&#x548C;&#x8FD0;&#x884C;"></a>&#x914D;&#x7F6E;&#x548C;&#x8FD0;&#x884C;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能对比"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x6027;&#x80FD;&#x5BF9;&#x6BD4;" class="headerlink" title="&#x6027;&#x80FD;&#x5BF9;&#x6BD4;"></a>&#x6027;&#x80FD;&#x5BF9;&#x6BD4;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-Unit的运行结果"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Nginx-Unit&#x7684;&#x8FD0;&#x884C;&#x7ED3;&#x679C;" class="headerlink" title="Nginx Unit&#x7684;&#x8FD0;&#x884C;&#x7ED3;&#x679C;"></a>Nginx Unit&#x7684;&#x8FD0;&#x884C;&#x7ED3;&#x679C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同期对比tengine-php-fpm环境下压测结果。"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x540C;&#x671F;&#x5BF9;&#x6BD4;tengine-php-fpm&#x73AF;&#x5883;&#x4E0B;&#x538B;&#x6D4B;&#x7ED3;&#x679C;&#x3002;" class="headerlink" title="&#x540C;&#x671F;&#x5BF9;&#x6BD4;tengine+php-fpm&#x73AF;&#x5883;&#x4E0B;&#x538B;&#x6D4B;&#x7ED3;&#x679C;&#x3002;"></a>&#x540C;&#x671F;&#x5BF9;&#x6BD4;tengine+php-fpm&#x73AF;&#x5883;&#x4E0B;&#x538B;&#x6D4B;&#x7ED3;&#x679C;&#x3002;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张林林</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NVLHepI7YKphvx0pICYhDB3L-gzGzoHsz", "yIA9H08bJ00vyJhsReG7jSqc");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
