@@ -456,35 +456,12 @@
 <li><p>压测结果：</p>
 </li>
 </ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th><a href="http://unit.local" target="_blank" rel="noopener">http://unit.local</a></th>
-<th><a href="http://127.0.0.1:8100" target="_blank" rel="noopener">http://127.0.0.1:8100</a></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>并发请求参数100，压测请求总数10000</td>
-<td>2789.998</td>
-<td>4734.318</td>
-</tr>
-<tr>
-<td>并发请求参数50，压测请求总数10000</td>
-<td>2519.218</td>
-<td>4822.703</td>
-</tr>
-<tr>
-<td>并发请求参数50，压测请求总数1000</td>
-<td>2480.43</td>
-<td>4551.993</td>
-</tr>
-</tbody>
-</table>
+<p>|—-                           | tengine+php-fpm  |nginx unit<br>|并发请求参数100，压测请求总数10000 | 2789.998         | 4734.318<br>|并发请求参数50，压测请求总数10000  | 2519.218         | 4822.703<br>|并发请求参数50，压测请求总数1000   |2480.43           | 4551.993</p>
 <ul>
-<li>结果分析：<br>从结果数据来看，nginx unit在纯文本输出中的qps值是明显高于tengine+php-fpm组合的。</li>
+<li>结果分析：</li>
+<li>每行的的后两列数据是Requests per second值，是总时间除以总请求数的值，也就是我们平常所所的QPS值，QPS值越高表明服务器处理请求数越高，性能越好。分析这三行数据：<br>1.在并发请求参数相同均为50的前提下，压测请求总数设置为1000和10000两种情况时，发现相同并发数时，压测请求总数越高，其QPS值越高，tengine+php-fpm和nginx unit均是如此；<br>2.对比tengine+php-fpm和nginx unit在并发请求总数50，压测请求总数10000时，nginx unit的性能也是明显优于tengine的;<br>3.在压测请求总数相同均为10000的时候，并发请求参数设置为100和50两种情况时，发现并发请求参数为100的QPS值是明显优于并发请求参数为50的；<br>4.对比tengine+php-fpm和nginx unit在并发请求总数100，压测请求总数为10000的时候，nginx unit的性能优于tengine+php-fpm。</li>
 </ul>
+<p>综上:nginxunit在纯文本输出中的qps值是明显高于tengine+php-fpm组合的。Nginx unit 确实如官方所说在微服务方面是有一定优势的。</p>
 
           
         
